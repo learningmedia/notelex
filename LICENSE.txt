@@ -1,0 +1,4 @@
+© 2014 by Andreas Helmberger and Ulrich Kaiser
+
+Licensed under the CreativeCommons BY-NC-ND 4.0 license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+However, we explicitly allow forks of this repository in order to create pull requests.
