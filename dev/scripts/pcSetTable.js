@@ -15893,7 +15893,6 @@ define(["lodash"], function (_) {
 
         // the best one (= smallest intervals at the left side == PRIME FORM):
         var primeForm = getBestNormalOrder(selectionInclInversions);
-
         return lookupPcSet(primeForm);
     }
 
