@@ -1,4 +1,4 @@
-﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "jquery.klavier"], function ($, _, hash, notation, NoteSet) {
+﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "functionProvider", "jquery.klavier"], function ($, _, hash, notation, NoteSet, functionProvider) {
 
     $(function() {
 
@@ -10,11 +10,7 @@
         };
 
         // Funktionstheorie:
-        var ftProvider = {
-            getName: function(language) { return "Funktionstheorie"; },
-            getHeader: function(language) { return "FT"; },
-            getContent: function(noteSet, language) { return language === "de" ? "<div>Hello from Funktionstheorie!</div>" : null; }
-        };
+        var ftProvider = functionProvider;
 
         // Pitch Class Set:
         var pcProvider = {
@@ -26,7 +22,7 @@
         var theoryProviders = [amProvider, ftProvider, pcProvider],
             currentProvider = 0,
             currentLanguage = "de",
-            currentResults = calculateResults(theoryProviders, currentProvider, currentLanguage);
+            currentResults = calculateResults(theoryProviders, currentProvider, new NoteSet(), currentLanguage);
 
         $("#piano").klavier({
             startKey: 48,
