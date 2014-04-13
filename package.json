@@ -1,0 +1,16 @@
+{
+  "name": "notelex",
+  "version": "1.0.0-pre",
+  "description": "Notelex is a website to compare different musical theory approaches.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/learningmedia/notelex.git"
+  },
+  "author": "Andreas Helmberger and Ulrich Kaiser",
+  "license": "CC BY-NC-ND",
+  "devDependencies": {
+    "requirejs": "~2.1.11",
+    "karma-requirejs": "~0.2.1",
+    "karma-chrome-launcher": "~0.1.2"
+  }
+}
