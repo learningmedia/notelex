@@ -1,24 +1,54 @@
 define(["calculationHelper"], function (calculationHelper) {
 
     function getTriadName(base, intervals){  
-        var value = intervals.join("");
-        switch(value){
-            case "047": 
-            console.log(base, intervals);
+
+        if (intervals.length === 3) {
+
+            if (evaluateMidiValues(intervals, [0,4,7])) {
                 return [getToneName(base, "Dur"), "Dur", "Grundakkord"];
-            case "038":
+            }
+            if (evaluateMidiValues(intervals, [0,3,8])) {
                 return [getToneName(calculationHelper.mod(base + 8, 12), "Dur"), "Dur", "Sextakkord"];
-            case "059":
+            }
+            if (evaluateMidiValues(intervals, [0,5,9])) {
                 return [getToneName(calculationHelper.mod(base + 5, 12), "Dur"), "Dur", "Quartsextakkord"];
-            case "037": 
+            }
+            if (evaluateMidiValues(intervals, [0,3,7])) {
                 return [getToneName(base, "Moll"), "Moll", "Grundakkord"];
-            case "049":
+            }
+            if (evaluateMidiValues(intervals, [0,4,9])) {
                 return [getToneName(calculationHelper.mod(base + 9, 12), "Moll"), "Moll", "Sextakkord"];
-            case "058":
+            }
+            if (evaluateMidiValues(intervals, [0,5,8])) {
                 return [getToneName(calculationHelper.mod(base + 5, 12), "Moll"), "Moll", "Quartsextakkord"];
-            default:
-                return [];
+            }
+
+            if (evaluateMidiValues(intervals, [0,3,6])) {
+                return [getToneName(base, "verminderter"), "verminderter", "Grundakkord"];
+            }
+            if (evaluateMidiValues(intervals, [0,3,9])) {
+                return [getToneName(base, "verminderter"), "verminderter", "Sextakkord"];
+            }
+            if (evaluateMidiValues(intervals, [0,6,9])) {
+                return [getToneName(base, "verminderter"), "verminderter", "Quartsextakkord"];
+            }
+
+            if (evaluateMidiValues(intervals, [0,4,8])) {
+                return [getToneName(base, "übermäßiger"), "übermäßiger", "Grundakkord (auch Sext- oder Quartsextakkord, je nach enharmonischer Lesart."];
+            }
         }
+
+        return [];
+
+    }
+
+    function evaluateMidiValues(intervals, searchPattern){
+        for (var i = 0; i < searchPattern.length; i++) {
+            if(intervals.indexOf(searchPattern[i]) === -1){
+                return false;
+            } 
+        }
+        return true;
     }
 
     function getToneName(midiValue, genus){
@@ -64,7 +94,7 @@ define(["calculationHelper"], function (calculationHelper) {
                 key = midiValue;
                 break;
         }
-        return genus === "Dur" ? key : key.toLowerCase();
+        return (genus === "Dur" || genus === "übermäßiger") ? key : key.toLowerCase();
     }
 
     function enharmonic(toneName, genus)
