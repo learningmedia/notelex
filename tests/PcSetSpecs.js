@@ -12,6 +12,12 @@ describe("PcSetTable getPcSet function", function() {
         });
     });
 
+    it("should calculate an empty PC set set for an empty NoteSet.", function () {
+        var noteSet = new NoteSet([]);
+        var set = pcSet(noteSet);
+        expect(set.fortePrimeForm).toBe("");
+    });
+
     it("should calculate 0,3,7 for a d major chord.", function () {
         var noteSet = new NoteSet([2, 6, 9]);
         var set = pcSet(noteSet);
