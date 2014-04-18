@@ -27,10 +27,10 @@ define(["calculationHelper"], function (calculationHelper) {
                 return [getToneName(base, "verminderter"), "verminderter", "Grundakkord"];
             }
             if (evaluateMidiValues(intervals, [0,3,9])) {
-                return [getToneName(base, "verminderter"), "verminderter", "Sextakkord"];
+                return [getToneName(calculationHelper.mod(base + 9,12), "verminderter"), "verminderter", "Sextakkord"];
             }
             if (evaluateMidiValues(intervals, [0,6,9])) {
-                return [getToneName(base, "verminderter"), "verminderter", "Quartsextakkord"];
+                return [getToneName(calculationHelper.mod(base + 6,12), "verminderter"), "verminderter", "Quartsextakkord"];
             }
 
             if (evaluateMidiValues(intervals, [0,4,8])) {
