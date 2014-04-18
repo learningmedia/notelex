@@ -1,11 +1,25 @@
-define([], function () {
+define(["providers/providerHelper"], function (providerHelper) {
 
     return function(noteSet, language) {
-        if (noteSet.intervals.length === 3 && noteSet.intervals[0] === 0 && noteSet.intervals[1] === 4 && noteSet.intervals[2] === 7) {
-            return "<div>Dur-Akkord</div>";
-        }
 
-        return language === "de" ? "<div>Hello from Funktionstheorie!</div>" : null;
-    };
+            var returnValue = "Grundton: ";
+            var base = providerHelper.getToneName(noteSet.base);
+            if (base) {
+                returnValue += base + "<br/>";
+            }
+            else{
+                returnValue += "unbestimmt<br/>";
+            }
+            if (noteSet.intervals.length === 3) {
+                console.log(noteSet.intervals);
+                var values = providerHelper.getGenusAndBehavior(noteSet.intervals);
+                returnValue += "<div>"+ 
+                "Tongeschlecht: " + values[0] + "<br/>" +
+                "Akkordgestalt: " + values[1] + "<br/>" +
+                "</div>";
+            }
+
+            return language === "de" ? returnValue : null;
+        };
 
 });
