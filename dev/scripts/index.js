@@ -1,25 +1,8 @@
-﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "functionProvider", "jquery.klavier"], function ($, _, hash, notation, NoteSet, functionProvider) {
+﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, _, hash, notation, NoteSet, providerFactory) {
 
     $(function() {
 
-        // Allgemeine Musiklehre:
-        var amProvider = {
-            getName: function(language) { return "Allgemeine Musiklehre"; },
-            getHeader: function(language) { return "AM"; },
-            getContent: function(noteSet, language) { return language === "de" ? "<div>Hallo von der Allgemeine Musiklehre!</div>" : "<div>Hello from Allgemeine Musiklehre!</div>"; }
-        };
-
-        // Funktionstheorie:
-        var ftProvider = functionProvider;
-
-        // Pitch Class Set:
-        var pcProvider = {
-            getName: function(language) { return "Pitch Class Set"; },
-            getHeader: function(language) { return "PC"; },
-            getContent: function(noteSet, language) { return "<div>Hello from Pitch Class Set!</div>"; }
-        };
-
-        var theoryProviders = [amProvider, ftProvider, pcProvider],
+        var theoryProviders = providerFactory.getProviders(),
             currentProvider = 0,
             currentLanguage = "de",
             currentResults = calculateResults(theoryProviders, currentProvider, new NoteSet(), currentLanguage);
