@@ -10,7 +10,7 @@ describe("NoteSet constructor function", function() {
         });
     });
 
-    it("should add 1 and 2", function() {
+    it("should return an object", function() {
         var result = new NoteSet();
         expect(result).toBeDefined();
     });
@@ -18,12 +18,14 @@ describe("NoteSet constructor function", function() {
     it("should create an empty set if no argument is supplied.", function () {
         var noteSet = new NoteSet();
         expect(isNaN(noteSet.base)).toBe(true);
+        expect(noteSet.originalValues).toEqual([]);
         expect(noteSet.intervals.length).toBe(0);
     });
 
     it("should create an empty set if an empty array is supplied as argument.", function () {
         var noteSet = new NoteSet([]);
         expect(isNaN(noteSet.base)).toBe(true);
+        expect(noteSet.originalValues).toEqual([]);
         expect(noteSet.intervals.length).toBe(0);
     });
 
@@ -44,6 +46,7 @@ describe("NoteSet constructor function", function() {
 
     it("should normalize and order all values.", function () {
         var noteSet = new NoteSet([9, 5, 7, 17, 5]);
+        expect(noteSet.originalValues).toEqual([9, 5, 7, 17, 5]);
         expect(noteSet.intervals).toEqual([0, 2, 4]);
     });
 
