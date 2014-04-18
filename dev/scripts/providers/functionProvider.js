@@ -1,11 +1,14 @@
 define(["providers/providerHelper"], function (providerHelper) {
 
     return function(noteSet, language) {
-    		console.log(noteSet.base);
-            var returnValue = "Name: ";
-            if (noteSet.base) {
-                if (noteSet.intervals.length === 3) {
-                returnValue += providerHelper.getTriadName(noteSet.base, noteSet.intervals).join("-");
+
+    		var message = " (enharmonische Lesart ist erforderlich)";
+            var returnValue = "Name: "; 
+            if (!isNaN(noteSet.base)) {
+            	if (noteSet.intervals.length === 3) {            	
+	                var values = providerHelper.getTriadName(noteSet.base, noteSet.intervals);
+	                var temp = providerHelper.enharmonic(values[0], values[1]) ? message : "";         
+	                returnValue += values.join("-") + temp;
             	}
             }
             else{
