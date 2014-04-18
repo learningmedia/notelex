@@ -11,6 +11,7 @@ define(["lodash", "calculationHelper"], function(_, calculationHelper) {
             this.originalValues = [];
             this.intervals = values;
         } else {
+            this.originalValues = Array.prototype.slice.call(values, 0);
             values = _.sortBy(values, function(x) {
                 return x;
             });
@@ -19,7 +20,6 @@ define(["lodash", "calculationHelper"], function(_, calculationHelper) {
             });
             values = _.unique(values);
             this.base = values[0];
-            this.originalValues = Array.prototype.slice.call(values, 0);
             this.intervals = _.sortBy(_.map(values, function(x) {
                 return calculationHelper.mod(x - that.base, 12);
             }), function(x) {

@@ -24,7 +24,7 @@ describe("PcSetTable getPcSet function", function() {
         expect(pcSet.fortePrimeForm).toBe("026");
     });
 
-    iit("should calculate 0,1,2,3,4,5,6,7,8,9,A for C-C#-D-Eb-E-F-F#-G-Ab-A-Bb.", function () {
+    it("should calculate 0,1,2,3,4,5,6,7,8,9,A for C-C#-D-Eb-E-F-F#-G-Ab-A-Bb.", function () {
         var noteSet = new NoteSet([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         var pcSet = PcSetTable.getPcSet(noteSet);
         expect(pcSet.fortePrimeForm).toBe("0123456789A");
