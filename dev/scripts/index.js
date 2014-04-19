@@ -1,4 +1,4 @@
-﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, _, hash, notation, NoteSet, providerFactory) {
+﻿define(["jquery", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, hash, notation, NoteSet, providerFactory) {
 
     $(function() {
 
@@ -90,13 +90,13 @@
         }
 
         function showHeaders(parentElementId, headerTemplateId, results) {
-            var headerContainer = $(parentElementId),
-                headerTemplate = $(headerTemplateId).html(),
-                instantiateHeader = _.template(headerTemplate);
-
+            var headerContainer = $(parentElementId);
             headerContainer.empty();
             results.forEach(function(result) {
-                headerContainer.append(instantiateHeader(result));
+                var link = $("<a></a>").addClass("header").attr("title", result.name).attr("data-index", result.index).text(result.header);
+                var item = $("<li></li>").addClass("theory-" + result.index).addClass(result.content ? "enabled" : "disabled").addClass(result.selected ? "selected" : "unselected");
+                link.appendTo(item);
+                item.appendTo(headerContainer);
             });
         }
 
