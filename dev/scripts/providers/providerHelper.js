@@ -1,6 +1,14 @@
 define(["calculationHelper"], function (calculationHelper) {
 
-    function getTriadName(base, intervals, originalValues){  
+    function getTriadName(base, intervals, originalValues) {
+
+        if (intervals.length === 2) {
+
+            if (evaluateMidiValues(intervals, [0, 10])) {
+                return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord (ohne Terz und Quinte)"];
+            }
+
+        }
 
         if (intervals.length === 3) {
 
@@ -23,9 +31,6 @@ define(["calculationHelper"], function (calculationHelper) {
                 return [getToneName(calculationHelper.mod(base + 5, 12), "Moll"), "Moll", "Quartsextakkord"];
             }
 
-            if (evaluateMidiValues(intervals, [0,3,6])) {
-                return [getToneName(base, "verminderter"), "verminderter", "Grundakkord"];
-            }
             if (evaluateMidiValues(intervals, [0,3,9])) {
                 return [getToneName(calculationHelper.mod(base + 9,12), "verminderter"), "verminderter", "Sextakkord"];
             }
@@ -40,16 +45,34 @@ define(["calculationHelper"], function (calculationHelper) {
             if (evaluateMidiValues(intervals, [0,5,7])) {
                     return [getToneName(base, "Dur"), "Dur", "mit Quartvorhalt"];
             }
-
             if (evaluateMidiValues(intervals, [0,6,7])) {
                     return [getToneName(base, "Dur"), "Dur", "mit (übermäßigem) Quartvorhalt"];
             }
+
+            if (evaluateMidiValues(intervals, [0,4,10])) {
+                    return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord (ohne Quinte)"];
+            }
+            if (evaluateMidiValues(intervals, [0,7,10])) {
+                    return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord (ohne Terz)"];
+            }
+            if (evaluateMidiValues(intervals, [0, 3, 6])) {
+                return [getToneName(calculationHelper.mod(base + 8,12), "Dur"), "Dur", "Dominantseptakkord (ohne Grundton)"];
+            }
+
+        }
+
+        if (intervals.length === 4) {
+
+            if (evaluateMidiValues(intervals, [0,4,7,10])) {
+                return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord"];
+            }
+
         }
 
         return [];
     }
 
-    function evaluateMidiValues(intervals, searchPattern){
+    function evaluateMidiValues(intervals, searchPattern) {
         for (var i = 0; i < searchPattern.length; i++) {
             if(intervals.indexOf(searchPattern[i]) === -1){
                 return false;
@@ -107,7 +130,7 @@ define(["calculationHelper"], function (calculationHelper) {
     function enharmonic(join, tone)
     {
         var toneToLowerCase = tone.toLowerCase();
-        switch(join){
+        switch (join) {
             case "057":
                 if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "as") {
                     return true;
@@ -129,8 +152,20 @@ define(["calculationHelper"], function (calculationHelper) {
                 else{
                     return false;
                 }
+            case "04710":
+            case "0410":
+            case "0710":
+            case "4710":
+            case "036":
+            case "010":
+                if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "gis" || toneToLowerCase === "b") {
+                    return true;
+                }
+                else{
+                    return false;
+                }
             default:
-                false;
+                return false;
         }
     }
 
