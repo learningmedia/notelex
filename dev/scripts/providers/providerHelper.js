@@ -1,6 +1,6 @@
 define(["calculationHelper"], function (calculationHelper) {
 
-    function getTriadName(base, intervals){  
+    function getTriadName(base, intervals, originalValues){  
 
         if (intervals.length === 3) {
 
@@ -36,10 +36,17 @@ define(["calculationHelper"], function (calculationHelper) {
             if (evaluateMidiValues(intervals, [0,4,8])) {
                 return [getToneName(base, "übermäßiger"), "übermäßiger", "Grundakkord (auch Sext- oder Quartsextakkord, je nach enharmonischer Lesart."];
             }
+
+            if (evaluateMidiValues(intervals, [0,5,7])) {
+                    return [getToneName(base, "Dur"), "Dur", "mit Quartvorhalt"];
+            }
+
+            if (evaluateMidiValues(intervals, [0,6,7])) {
+                    return [getToneName(base, "Dur"), "Dur", "mit (übermäßigem) Quartvorhalt"];
+            }
         }
 
         return [];
-
     }
 
     function evaluateMidiValues(intervals, searchPattern){
@@ -97,34 +104,33 @@ define(["calculationHelper"], function (calculationHelper) {
         return (genus === "Dur" || genus === "übermäßiger") ? key : key.toLowerCase();
     }
 
-    function enharmonic(toneName, genus)
+    function enharmonic(join, tone)
     {
-        if (genus === "Dur"){
-            switch(toneName){
-                case "Des":
-                case "Cis":
-                case "Fis":
-                case "As":
-                case "H":
+        var toneToLowerCase = tone.toLowerCase();
+        switch(join){
+            case "057":
+                if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "as") {
                     return true;
-                default:
+                }
+                else{
                     return false;
-            }
-        }
-        else if(genus === "Moll"){
-            switch(toneName){
-                case "des":
-                case "es":
-                case "f":
-                case "as":
-                case "b":
+                }
+            case "047":
+                if(toneToLowerCase === "des" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h"){
                     return true;
-                default:
+                }
+                else{
                     return false;
-            }
-        }
-        else{
-            return false;
+                }
+            case "037":
+                if(toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "gis" || toneToLowerCase === "b"){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            default:
+                false;
         }
     }
 
