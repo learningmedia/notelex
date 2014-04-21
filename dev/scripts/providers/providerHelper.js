@@ -55,16 +55,28 @@ define(["calculationHelper"], function (calculationHelper) {
             if (evaluateMidiValues(intervals, [0,7,10])) {
                     return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord (ohne Terz)"];
             }
-            if (evaluateMidiValues(intervals, [0, 3, 6])) {
+            if (evaluateMidiValues(intervals, [0,3,6])) {
                 return [getToneName(calculationHelper.mod(base + 8,12), "Dur"), "Dur", "Dominantseptakkord (ohne Grundton)"];
             }
 
         }
 
         if (intervals.length === 4) {
+            console.log("Anzahl der Intervalle: " + intervals.length);
+            if (evaluateMidiValues(intervals, [0,4,7,9])) {
+                return [getToneName(base, "Dur"), "Dur", "Sixte ajoutée / kleiner " + getToneName(calculationHelper.mod(base + 9, 12), "Moll") + "-Moll Quintsextakkord"];
+            }
 
             if (evaluateMidiValues(intervals, [0,4,7,10])) {
                 return [getToneName(base, "Dur"), "Dur", "Dominantseptakkord"];
+            }
+
+            if (evaluateMidiValues(intervals, [0,3,6,8])) {
+                return [getToneName(calculationHelper.mod(base + 8, 12), "Dur"), "Dur", "Dominantquintsextakkord"];
+            }
+
+            if (evaluateMidiValues(intervals, [0,3,6,9])) {
+                return [getToneName(base, "Dur"), "vermindert", "verminderter Septakkord"];
             }
 
         }
