@@ -21,14 +21,16 @@ define(["providers/providerHelper"], function (providerHelper) {
     }
 
     function getEnharmonicMessage(base, intervalPattern) {
-        
-        var enharmonicMessage = "";
+
+        var enharmonicMessage = "enharmonische Lesart erforderlich";
 
         switch (intervalPattern) {
         case "010":
             enharmonicMessage = providerHelper.enharmonic("010", base) ? enharmonicMessage : "";
             break;
         case "036":
+        case "360":
+        case "039":
             enharmonicMessage = "enharmonische Lesart entscheidend";
             break;
         case "057":

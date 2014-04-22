@@ -13,45 +13,47 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
 
         if (!isNaN(noteSet.base)) {
 
-            /* Holt die Bestandteile des Namens für die Ausgabe */
+            /* Get name parts for the header of the HTML output */
             values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
 
-            /* Ab hier wird die Ausgabe zusammengesetzt */
+            /* Compose the function theory output */
             if (values[0] === undefined) {
                 returnValue = "unbestimmt";
             }
             else {
 
-                /* Hier wird das Pc-Hilfspattern für die Ausgabe erzeugt */
+                /* Internal pattern for searching output */
                 intervalPattern = noteSet.intervals.join("");
 
-                /* Hier wird die Ausgabe des Namens für Zwei-, Dreik- und Mehrklänge zusammengebaut */
+                /* Get name for intervals an chords */
                 name = functionNameHelper.getName(values, intervalPattern);
 
-                /* Hier wird die Ausgabe für die Angabe der Enharmonik erzeugt */ 
+                /* Get message for enharmonic */
                 enharmonicMessage = functionNameHelper.getEnharmonicMessage(values[0], intervalPattern);
 
-                /* Stetzen einiger Flags für Sonderfälle der Funktionsbestimmung */
+                /* Flag for special cases of function theory */
                 switch (intervalPattern) {
                 case "036":
+                case "039":
+                case "069":
                 case "0369":
-                    chord = "dmc";
+                    chord = "dmc"; //diminished seven
                     break;
                 case "0479":
-                    chord = "sad";
+                    chord = "sad"; //sixte ajoutée in major mode
                     break;
                 case "0379":
-                    chord = "sam";
+                    chord = "sam"; //sixte ajoutée in minor mode
                     break;
                 default:
                     chord = values[0] + "-" + values[1];
                 }
 
-                /* Aufruf der Funktionen für die Angaben zur Funktionstheorie in Dur und Moll */
+                /* Get function-theory output (major and minor mode) */
                 majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
                 minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
 
-                /* Hier wird der Rückgabewert zusammengesetzt */
+                /* Link outout parts */
                 returnValue = getNameObject(name, enharmonicMessage);
                 returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
                 returnValue += getNote();
@@ -62,8 +64,8 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
         return language === "de" ? returnValue : null;
     };
 
-    function getNameObject(name, enharmonicRequired) {
-        var enharmonicOutput = enharmonicRequired ? "(" + enharmonicRequired + ")</div>" : "";
+    function getNameObject(name, enharmonic) {
+        var enharmonicOutput = enharmonic ? "(" + enharmonic + ")</div>" : "";
         return "<div><span style='font-weight:bold;'>Name: </span>" + name + "</br>" + "<span style='color:maroon;font-style:italic;'>" + enharmonicOutput + "</span>";
     }
 

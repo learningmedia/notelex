@@ -139,10 +139,11 @@ define(["calculationHelper"], function (calculationHelper) {
         return (genus === "Dur" || genus === "übermäßiger") ? key : key.toLowerCase();
     }
 
-    function enharmonic(join, tone)
-    {
+    function enharmonic(intervallPattern, tone) {
+
+        //console.log("function enharmonic: " + intervallPattern + " : " + tone);
         var toneToLowerCase = tone.toLowerCase();
-        switch (join) {
+        switch (intervallPattern) {
             case "057":
                 if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "as") {
                     return true;
@@ -158,7 +159,7 @@ define(["calculationHelper"], function (calculationHelper) {
                     return false;
                 }
             case "037":
-                if(toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "gis" || toneToLowerCase === "b"){
+                if(toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "gis" || toneToLowerCase === "as" || toneToLowerCase === "b"){
                     return true;
                 }
                 else{
