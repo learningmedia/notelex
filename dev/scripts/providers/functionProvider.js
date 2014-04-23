@@ -19,7 +19,6 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
             /* Compose the function theory output */
             if (values[0] === undefined) {
                 returnValue = "unbestimmt";
-                chord = "unbestimmt";
             }
             else {
 
@@ -31,6 +30,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
 
                 /* Get message for enharmonic */
                 enharmonicMessage = functionNameHelper.getEnharmonicMessage(values[0], intervalPattern);
+                //console.log("functionProvider: functionNameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
 
                 /* Flag for special cases of function theory */
                 switch (intervalPattern) {
@@ -50,8 +50,6 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
                     chord = values[0] + "-" + values[1];
                     break;
                 }
-
-                console.log("Chord-Log: " + chord);
 
                 /* Get function-theory output (major and minor mode) */
                 majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);

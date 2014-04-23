@@ -9,9 +9,14 @@ define(["providers/providerHelper"], function (providerHelper) {
                 var dvToneName = getDvToneName(values[0]);
                 valuesOutput = values[1] + " " + values[2] + " über " + dvToneName + " (oder auch: ganzverminderter bzw. hartverminderter Septakkord)";
                 break;
+            case "010":
+            case "06":
+            case "036":
+            case "0410":
+            case "0710":
             case "0379":
             case "0479":
-                valuesOutput = values[0] + " " + values[1] + " " + values[2];
+                valuesOutput = values[2] + " " + values[0] + "-" + values[1] + " " + values[3] + " " + values[4];
                 break;
             default:
                 valuesOutput = values[0] + "-" + values[1] + " " + values[2];
@@ -24,12 +29,18 @@ define(["providers/providerHelper"], function (providerHelper) {
     function getEnharmonicMessage(base, intervalPattern) {
 
         var enharmonicMessage = "enharmonische Lesart erforderlich";
+        //console.log("functionNameHelper: getEnharmonicMessage(" + base + ", " + intervalPattern + ")");
 
         switch (intervalPattern) {
+        case "06":
+            enharmonicMessage = providerHelper.enharmonic("06", base) ? "enharmonische Lesart entscheidend" : "";
+            break;
         case "010":
             enharmonicMessage = providerHelper.enharmonic("010", base) ? enharmonicMessage : "";
             break;
         case "036":
+            enharmonicMessage = providerHelper.enharmonic("036", base) ? "enharmonische Lesart entscheidend" : "";
+            break;
         case "360":
         case "039":
             enharmonicMessage = "enharmonische Lesart entscheidend";

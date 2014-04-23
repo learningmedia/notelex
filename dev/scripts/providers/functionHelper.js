@@ -1,7 +1,8 @@
 define(["calculationHelper"], function (calculationHelper) {
 
     function majorFunctions(chord, intervalPattern, noteSet) {
-        console.log(chord + " " + intervalPattern);
+        //console.log("functionHelper: majorFunctions(" + chord + ", " + intervalPattern + ", noteSet");
+
         var isD7 = d7Value(intervalPattern);
         switch (chord) {
         case "C-Dur":
@@ -94,6 +95,8 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function minorFunctions(chord, intervalPattern, noteSet) {
+        //console.log("functionHelper: minorFunctions(" + chord + ", " + intervalPattern + ", noteSet");
+
         var isD7 = d7Value(intervalPattern);
         switch (chord) {
         case "c-Moll":
@@ -170,8 +173,8 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getDiminishedOutPut(noteSet, genus) {
+
         var pattern = getOriginalValuesMod12(noteSet);
-        console.log(pattern);
         switch (pattern) {
             case "0:3:6:":
             case "3:6:0:":
