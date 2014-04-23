@@ -64,7 +64,7 @@ define(["calculationHelper"], function (calculationHelper) {
         if (intervals.length === 4) {
             console.log("Anzahl der Intervalle: " + intervals.length);
             if (evaluateMidiValues(intervals, [0,4,7,9])) {
-                return [getToneName(base, "Dur"), "Dur", "Sixte ajoutée / kleiner " + getToneName(calculationHelper.mod(base + 9, 12), "Moll") + "-Moll Quintsextakkord"];
+                return ["kleiner Moll Septakkord", " über " + getToneName(calculationHelper.mod(base + 9, 12), "Moll") + " als Quintsextakkord (1. Umkehrung)", " / Sixte ajoutée über " + getToneName(base, "Dur") + " (Grundstellung)"];
             }
 
             if (evaluateMidiValues(intervals, [0,4,7,10])) {
@@ -72,11 +72,15 @@ define(["calculationHelper"], function (calculationHelper) {
             }
 
             if (evaluateMidiValues(intervals, [0,3,6,8])) {
-                return [getToneName(calculationHelper.mod(base + 8, 12), "Dur"), "Dur", "Dominantquintsextakkord"];
+                return [getToneName(calculationHelper.mod(base + 8, 12), "Dur"), "Dur", "Dominantseptakkord als Quintsextakkord (1. Umkehrung)"];
             }
 
             if (evaluateMidiValues(intervals, [0,3,6,9])) {
                 return [getToneName(base, "Dur"), "vermindert", "verminderter Septakkord"];
+            }
+
+            if (evaluateMidiValues(intervals, [0, 3, 7, 9])) {
+                return ["kleiner verminderter Septakkord", " über " + getToneName(calculationHelper.mod(base + 9, 12), "vermindert") + " als Quintsextakkord (1. Umkehrung)", " / Sixte ajoutée über " + getToneName(base, "Moll") + " (Grundstellung)"];
             }
 
         }

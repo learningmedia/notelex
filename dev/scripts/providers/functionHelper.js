@@ -9,7 +9,7 @@ define(["calculationHelper"], function (calculationHelper) {
                 return "1.) T<sup>4</sup> = Tonika mit Quartvorhalt<br/>2.) (D<sup>4</sup>) S = Dominante (Zwischendominante) mit Quartvorhalt der Subdominante";
             } else if (isD7) {
                 return "1.) (D<sup>7</sup>) S = Dominantseptakkord (Zwischendominante) der Subdominante" +
-                    "<br/>2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>5></sub> D Tg = " +
+                    "<br/>2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>5></sub> D) Tg = " +
                     "übermäßiger Quintsextakkord (C-E-G-Ais) als Doppeldominante des Tonikagegenklangs (bzw. der Dominantparallele).</span>";
             } else {
                 return "1.) T = Tonika<br/>2.) (D) S = Dominante (Zwischendominante) der Subdominante";
@@ -85,7 +85,9 @@ define(["calculationHelper"], function (calculationHelper) {
         case "dmc":
             return getDiminishedOutPut(noteSet, "Dur");
         case "sad":
-                return "Angaben zum Sixte ajoutée in Dur und kleinen Moll-Septakkord noch einfügen";
+            return "Angaben zum Sixte ajoutée in Dur und kleinen Moll-Septakkord noch einfügen";
+        case "sam":
+            return "s<sub>5</sub><sup style='position: absolut; margin: -7px;'>6</sup>&nbsp;&nbsp;&nbsp;T = Moll-Subdominante mit Sixte ajoutée (vermollter Sixte ajoutée in Dur)" ;
         default:
             return "nicht gebräuchlich";
         }
@@ -176,36 +178,36 @@ define(["calculationHelper"], function (calculationHelper) {
             case "6:0:3:":
                 if (genus === "Dur") {
                     return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S<sup>N</sup> = in der Notation C-Es-Ges Dominantseptakkord (ohne Grundton As) zum Grundakkord des Neapolitaners (verkürzte Zwischendominante zum Neapolitaner)</span><br/>" +
-                        "2.)&nbsp;&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7 9></sup></sup>) D = in der Notation C-Es-Fis Dominantseptakkord mit kleiner None (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
+                        "2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp;&nbsp;) D = in der Notation C-Es-Fis Dominantseptakkord mit kleiner None (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
                 }
                 return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S<sup>N</sup> = in der Notation C-Es-Ges Dominantseptakkord (ohne Grundton As) zum Grundakkord des Neapolitaners (verkürzte Zwischendominante zum Neapolitaner)</span><br/>" +
-                    "2.)&nbsp;&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7 9</sup></sup>) D = in der Notation C-Es-Fis Dominantseptakkordnonakkord (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
+                    "2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp;&nbsp;) D = in der Notation C-Es-Fis Dominantseptakkordnonakkord (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
             case "1:4:7:":
             case "4:7:1:":
             case "7:1:4:":
                 if (genus == "Dur") {
                     return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) Sp = in der Notation Cis-E-G Dominantseptakkord (ohne Grundton A) der Parallele der Subdominante (verkürzter Dominantseptakkord zur Subdominantparallele)</span>" +
-                    "<br/>2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S = in der Notation Des-E-G Dominantseptnonakkord (ohne Grundton C und Septime B) der Subdominante (verkürzter Dominanteptnonakkord zur Subdominante)</span>";
+                    "<br/>2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup  style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp;) S = in der Notation Des-E-G Dominantseptnonakkord (ohne Grundton C und Septime B) der Subdominante (verkürzter Dominanteptnonakkord zur Subdominante)</span>";
                 }
-                return "&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9</sup>) s = in der Notation Des-E-G Dominantseptnonakkord (ohne Grundton C und Septime B) der Subdominante (verkürzter Dominanteptnonakkord zur Subdominante)</span>";
+                return "&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp;) s = in der Notation Des-E-G Dominantseptnonakkord (ohne Grundton C und Septime B) der Subdominante (verkürzter Dominanteptnonakkord zur Subdominante)</span>";
             case "2:8:11:":
             case "8:11:2:":
             case "11:2:8:":
                 if (genus == "Dur") {
                     return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) Tp = in der Notation Gis-H-D Dominantseptakkord (ohne Grundton E) der Parallele der Tonika oder des Gegenklangs der Subdominante (verkürzter Dominantseptakkord zur Tonikaparallele bzw. zum Subdominantgegenklang)</span>" +
-                    "<br/>2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9></sup>) T = in der Notation As-H-D Dominantseptakkord mit tiefalterierter None (ohne Grundton G und Septime F) der Tonika (verkürzter Dominanteptnonakkord zur Tonika)</span>";
+                    "<br/>2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp;) T = in der Notation As-H-D Dominantseptakkord mit tiefalterierter None (ohne Grundton G und Septime F) der Tonika (verkürzter Dominanteptnonakkord zur Tonika)</span>";
                 }
-                return "&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9></sup>) t = in der Notation As-H-D Dominantseptakkord mit tiefalterierter None (ohne Grundton G und Septime F) der Tonika (verkürzter Dominanteptnonakkord zur Tonika)</span><br/>" +
-                    "&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9></sup>) tP = in der Notation As-Ces-D Dominantseptakkord mit tiefalterierter None (ohne Grundton B und Septime F) des Gegenklnags der Tonika (verkürzter Dominanteptnonakkord zum Tonikagegenklang)</span>";
+                return "&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9></sup>&nbsp;&nbsp;) t = in der Notation As-H-D Dominantseptakkord mit tiefalterierter None (ohne Grundton G und Septime F) der Tonika (verkürzter Dominanteptnonakkord zur Tonika)</span><br/>" +
+                    "&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9></sup>&nbsp;&nbsp;) tP = in der Notation As-Ces-D Dominantseptakkord mit tiefalterierter None (ohne Grundton B und Septime F) des Gegenklnags der Tonika (verkürzter Dominanteptnonakkord zum Tonikagegenklang)</span>";
             case "2:5:8:":
             case "5:8:2:":
             case "8:2:5:":
                 if (genus == "Dur") {
-                    return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9</sup>) Tp = in der Notation D-F-Gis Dominantseptakkord mit kleiner None (ohne Grundton E und Quinte H) der Parallele der Tonika oder des Gegenklangs der Subdominante (verkürzte Zwischendominante zur Tonikaparallele oder zum Subdominantgegenklang)</span><br/>" +
-                    "2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9></sup>) T = in der Notation D-F-As Dominantseptakkord mit kleiner None (ohne Grundton G und Terz H) der Tonika (verkürzter Dominanteptnonakkord ohne Terz)</span>";
+                    return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp;) Tp = in der Notation D-F-Gis Dominantseptakkord mit kleiner None (ohne Grundton E und Quinte H) der Parallele der Tonika oder des Gegenklangs der Subdominante (verkürzte Zwischendominante zur Tonikaparallele oder zum Subdominantgegenklang)</span><br/>" +
+                    "2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-9px;'>D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp; T = in der Notation D-F-As Dominantseptakkord mit kleiner None (ohne Grundton G und Terz H) der Tonika (verkürzter Dominanteptnonakkord ohne Terz)</span>";
                 }
-                return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9</sup>) t = in der Notation D-F-As Dominantseptakkord mit None (ohne Grundton G und Terz H) der Tonika (verkürzter Dominanteptnonakkord ohne Terz)</span><br/>" + 
-                    "2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7 9></sup>) tP = in der Notation As-Ces-D Dominantseptakkord mit tiefalterierter None (ohne Grundton B und Septime F) des Gegenklangs der Tonika (verkürzter Dominanteptnonakkord zum Tonikagegenklang)</span>";
+                return "1.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-9px;'>D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9</sup>&nbsp;&nbsp; t = in der Notation D-F-As Dominantseptakkord mit None (ohne Grundton G und Terz H) der Tonika (verkürzter Dominanteptnonakkord ohne Terz)</span><br/>" +
+                    "2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sub>7</sub><sup style='position: absolut; margin: -7px;'>9></sup>&nbsp;&nbsp;) tP = in der Notation As-Ces-D Dominantseptakkord mit tiefalterierter None (ohne Grundton B und Septime F) des Gegenklangs der Tonika (verkürzter Dominanteptnonakkord zum Tonikagegenklang)</span>";
             case "3:6:9:":
             case "6:9:3:":
             case "9:3:6:":
@@ -218,10 +220,16 @@ define(["calculationHelper"], function (calculationHelper) {
             case "10:4:7:":
                 if (genus == "Dur") {
                     return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S = in der Notation E-G-B Dominantseptakkord ohne Grundton (Zwischendominante) der Subdominante</span>" +
-                    "<br/>2.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7</sup> D Tg = " +
+                    "<br/>2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7</sup> D Tg = " +
                     "als E-G-Ais Dominantseptakkord ohne Grundton der Dominante des Gegenklangs der Tonika (verkürzte Doppeldominante des Tonikagegenklangs bzw. der Dominantparallele)</span>";
                 }
-                return "&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) s = in der Notation E-G-B Dominantseptakkord ohne Grundton (Zwischendominante) der Subdominante</span>";
+                return "&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) s = in der Notation E-G-B Dominantseptakkord ohne Grundton (Zwischendominante) der Subdominante</span>";
+            case "0:3:6:9:":
+                return "Hallo verminderter Septakkord über C!";
+            case "1:4:7:10:":
+                return "Hallo verminderter Septakkord über Cis!";
+            case "2:5:8:11:":
+                return "Hallo verminderter Septakkord über D!";
             default:
                 return "";
         }

@@ -19,6 +19,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
             /* Compose the function theory output */
             if (values[0] === undefined) {
                 returnValue = "unbestimmt";
+                chord = "unbestimmt";
             }
             else {
 
@@ -47,7 +48,10 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
                     break;
                 default:
                     chord = values[0] + "-" + values[1];
+                    break;
                 }
+
+                console.log("Chord-Log: " + chord);
 
                 /* Get function-theory output (major and minor mode) */
                 majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
@@ -58,7 +62,8 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
                 returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
                 returnValue += getNote();
             }
-        } else {
+        }
+        else {
             returnValue = "unbestimmt";
         }
         return language === "de" ? returnValue : null;

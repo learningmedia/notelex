@@ -10,7 +10,8 @@ define(["providers/providerHelper"], function (providerHelper) {
                 valuesOutput = values[1] + " " + values[2] + " über " + dvToneName + " (oder auch: ganzverminderter bzw. hartverminderter Septakkord)";
                 break;
             case "0379":
-                valuesOutput = "0379 noch einfügen";
+            case "0479":
+                valuesOutput = values[0] + " " + values[1] + " " + values[2];
                 break;
             default:
                 valuesOutput = values[0] + "-" + values[1] + " " + values[2];
