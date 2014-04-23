@@ -175,15 +175,19 @@ define(["calculationHelper"], function (calculationHelper) {
                 else{
                     return false;
                 }
-            case "047":
-                if(toneToLowerCase === "des" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h"){
+            case "037":
+            case "049":
+            case "058":
+                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "es") {
                     return true;
                 }
-                else{
+                else {
                     return false;
                 }
-            case "037":
-                if(toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "gis" || toneToLowerCase === "as" || toneToLowerCase === "b"){
+            case "038":
+            case "047":
+            case "059":
+                if(toneToLowerCase === "des" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h"){
                     return true;
                 }
                 else{

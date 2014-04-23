@@ -32,51 +32,20 @@ define(["providers/providerHelper"], function (providerHelper) {
         //console.log("functionNameHelper: getEnharmonicMessage(" + base + ", " + intervalPattern + ")");
 
         switch (intervalPattern) {
-        case "06":
-            enharmonicMessage = providerHelper.enharmonic("06", base) ? "enharmonische Lesart entscheidend" : "";
-            break;
-        case "010":
-            enharmonicMessage = providerHelper.enharmonic("010", base) ? enharmonicMessage : "";
-            break;
-        case "036":
-            enharmonicMessage = providerHelper.enharmonic("036", base) ? "enharmonische Lesart entscheidend" : "";
-            break;
         case "360":
         case "039":
+        case "0379":
             enharmonicMessage = "enharmonische Lesart entscheidend";
             break;
-        case "057":
-            enharmonicMessage = providerHelper.enharmonic("057", base) ? enharmonicMessage : "";
-            break;
-        case "047":
-            enharmonicMessage = providerHelper.enharmonic("047", base) ? enharmonicMessage : "";
-            break;
-        case "037":
-            enharmonicMessage = providerHelper.enharmonic("037", base) ? enharmonicMessage : "";
-            break;
-        case "067":
-            enharmonicMessage = providerHelper.enharmonic("067", base) ? enharmonicMessage : "";
-            break;
-        case "048":
-            enharmonicMessage = providerHelper.enharmonic("048", base) ? enharmonicMessage : "";
-            break;
-        case "0410":
-            enharmonicMessage = providerHelper.enharmonic("0410", base) ? enharmonicMessage : "";
-            break;
-        case "0710":
-            enharmonicMessage = providerHelper.enharmonic("0710", base) ? enharmonicMessage : "";
-            break;
-        case "04710":
-            enharmonicMessage = providerHelper.enharmonic("04710", base) ? enharmonicMessage : "";
+        case "06":
+        case "036":
+            enharmonicMessage = providerHelper.enharmonic(intervalPattern, base) ? "enharmonische Lesart entscheidend" : "";
             break;
         case "0369":
             enharmonicMessage = "für die Auflösung ist die enharmonische Lesart entscheidend";
             break;
-        case "0479":
-            enharmonicMessage = providerHelper.enharmonic("0479", base) ? enharmonicMessage : "";
-            break;
-        case "0379":
-            enharmonicMessage = "enharmonische Lesart entscheidend";
+        default:
+            enharmonicMessage = providerHelper.enharmonic(intervalPattern, base) ? enharmonicMessage : "";
             break;
         }
         return enharmonicMessage;

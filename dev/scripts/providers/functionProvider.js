@@ -1,4 +1,4 @@
-define(["providers/providerHelper", "providers/functionHelper", "providers/functionNameHelper"], function (providerHelper, functionHelper, functionNameHelper) {
+define(["providers/providerHelper", "providers/functionHelper", "providers/NameHelper"], function (providerHelper, functionHelper, nameHelper) {
 
     return function(noteSet, language) {
 
@@ -26,11 +26,11 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/funct
                 intervalPattern = noteSet.intervals.join("");
 
                 /* Get name for intervals an chords */
-                name = functionNameHelper.getName(values, intervalPattern);
+                name = nameHelper.getName(values, intervalPattern);
 
                 /* Get message for enharmonic */
-                enharmonicMessage = functionNameHelper.getEnharmonicMessage(values[0], intervalPattern);
-                //console.log("functionProvider: functionNameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
+                enharmonicMessage = nameHelper.getEnharmonicMessage(values[0], intervalPattern);
+                console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
 
                 /* Flag for special cases of function theory */
                 switch (intervalPattern) {
