@@ -30,7 +30,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/NameH
 
                 /* Get message for enharmonic */
                 enharmonicMessage = nameHelper.getEnharmonicMessage(values[0], intervalPattern);
-                console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
+                //console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
 
                 /* Flag for special cases of function theory */
                 switch (intervalPattern) {

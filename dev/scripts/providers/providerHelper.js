@@ -94,6 +94,37 @@ define(["calculationHelper"], function (calculationHelper) {
         return [];
     }
 
+    function getIntervalName(values) {
+        console.log("providerHelper: getEnharmonicMessage({" + values[0] + ", " + values[1] + "})");
+        var value = values[1] - values[0];
+        switch (value) {
+            case 1:
+                return "kleine Sekunde";
+            case 2:
+                return "große Sekunde";
+            case 3:
+                return "kleine Terz";
+            case 4:
+                return "große Terz";
+            case 5:
+                return "Quarte";
+            case 6:
+                return "übermäßige Quarte / verminderte Quinte";
+            case 7:
+                return "Quinte";
+            case 8:
+                return "kleine Sexte";
+            case 9:
+                return "große Sext";
+            case 10:
+                return "kleine Septime";
+            case 11:
+                return "große Septime";
+            default:
+                return "";
+        }
+    }
+
     function evaluateMidiValues(intervals, searchPattern) {
         for (var i = 0; i < searchPattern.length; i++) {
             if(intervals.indexOf(searchPattern[i]) === -1){
@@ -211,6 +242,7 @@ define(["calculationHelper"], function (calculationHelper) {
 
     return {
         getTriadName: getTriadName,
+        getIntervalName: getIntervalName,
         getToneName: getToneName,
         enharmonic: enharmonic
     };

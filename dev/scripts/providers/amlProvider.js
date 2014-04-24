@@ -1,118 +1,148 @@
-define(["providers/providerHelper"], function (providerHelper) {
+define(["providers/providerHelper", "providers/nameHelper"], function(providerHelper, nameHelper) {
 
     return function(noteSet, language) {
 
-        var returnValue,
+        var returnValue = "",
+            toneName,
+            intervalName,
             values,
-            valuesOutput,
             enharmonicMessage,
+            extensions = "",
             name,
             chord;
 
         if (!isNaN(noteSet.base)) {
 
-            /* Holt die Bestandteile des Namens für die Ausgabe */
-            values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+            /* Get name parts (base, genus, ...) */
 
-            /* Ab hier wird die Ausgabe zusammengesetzt */
-            if (values[0] === undefined) {
-                returnValue = "unbestimmt";
+            var intervalPattern = noteSet.intervals.join("");
+
+            if (noteSet.intervals.length == 1) {
+                toneName = providerHelper.getToneName(noteSet.base, "Dur");
+                name = toneName;
+                returnValue += getAmlObject(name, chord, null, null, toneName, intervalName, extensions);
             }
-            else {
-                var intervalPattern = noteSet.intervals.join("");
 
-                /* Hier wird die Ausgabe des Namens für Dreiklänge zusammengebaut */
-                valuesOutput = values[0] + "-" + values[1] + " " + values[2];
-                if (noteSet.intervals.length === 2) {
-                    switch (intervalPattern) {
-                        case "010":                         
-                            enharmonicMessage = providerHelper.enharmonic("010", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                            break;
-                        default:
-                            /* Hier noch einen Default-Value überlegen */
-                            break;
-                    }
+            if (noteSet.intervals.length === 2) {
+                intervalName = providerHelper.getIntervalName(noteSet.intervals);
+                name = intervalName;
+                intervalPattern = noteSet.intervals.join("");
+                console.log("amlProvider: noteSet.intervals.length === 2 " + intervalName + " " + intervalPattern + " " + noteSet.intervals[0]);
+
+                switch (intervalPattern) {
+                case "010":
+                    enharmonicMessage = providerHelper.enharmonic("010", providerHelper.getToneName(noteSet.intervals[0], "Dur")) ? " - enharmonische Lesart erforderlich" : "";
+                    break;
+                default:
+                    /* Hier noch einen Default-Value überlegen */
+                    break;
                 }
 
-                if (noteSet.intervals.length === 3) {
-                    switch (intervalPattern) {
-                    case "057":
-                        enharmonicMessage = providerHelper.enharmonic("057", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "047":
-                        enharmonicMessage = providerHelper.enharmonic("047", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "037":
-                        enharmonicMessage = providerHelper.enharmonic("037", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "067":
-                        enharmonicMessage = providerHelper.enharmonic("067", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "048":
-                        enharmonicMessage = providerHelper.enharmonic("048", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "0410":
-                        enharmonicMessage = providerHelper.enharmonic("0410", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "0710":
-                        enharmonicMessage = providerHelper.enharmonic("0710", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    case "036":
-                        enharmonicMessage = providerHelper.enharmonic("036", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    default:
-                        /* Hier noch einen Default-Value überlegen */
-                        break;
-                    }
+                returnValue += getAmlObject(name, chord, null, null, toneName, intervalName, extensions);
+            }
+
+            if (noteSet.intervals.length === 3) {
+                
+                intervalPattern = noteSet.intervals.join("");
+                values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                var message = providerHelper.enharmonic(intervalPattern, values[0]) ? "<br/><span style='color:maroon; font-style:italic;'>(enharmonische Lesart erforderlich)</span>" : "";
+               
+                if (values && values.length >= 1) {
+                    chord = values[0] + "-" + values[1];
+                    name = chord;
+                    name += " " + message;
                 }
 
-                if (noteSet.intervals.length === 4) {
-                    switch (intervalPattern) {
-                    case "04710":
-                        enharmonicMessage = providerHelper.enharmonic("04710", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                        break;
-                    default:
-                        /* Hier noch einen Default-Value überlegen */
-                        break;
-                    }
+                returnValue += getAmlObject(name, chord, values[0], values[1], toneName, intervalName, extensions);
+            }
+
+            if (noteSet.intervals.length === 4) {
+                values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                switch (intervalPattern) {
+                case "04710":
+                    enharmonicMessage = providerHelper.enharmonic("04710", values[0]) ? " - enharmonische Lesart erforderlich" : "";
+                    break;
+                default:
+                    /* Hier noch einen Default-Value überlegen */
+                    break;
                 }
 
-                /* Hierwird die Anmerkung zu Enhamronik gesetzt */
-                name = valuesOutput + enharmonicMessage;
+                if (values && values.length >= 1) {
+                    chord = values[0] + "-" + values[1];
+                }
+                returnValue += getAmlObject(name, chord, values[0], values[1], toneName, intervalName, extensions);
+            }
 
-                /* Aufruf der Funktionen für die Angaben zur Funktionstheorie in Dur und Moll */
-                chord = values[0] + "-" + values[1];
-                returnValue = getNameObject(name);
-                returnValue += getFunctionObject(chord, values[0], values[1]);
-            }
-            }
-        else {
+        } else {
             returnValue = "unbestimmt";
         }
         return language === "de" ? returnValue : null;
-        };
-    
-        function getNameObject(name) {
-            return "<div style='font-weight:bold;'>Name: " + name + "</div>";
-        }
+    };
 
-        function getFunctionObject(chord, base, genus, extensions){
-            var value = "<hr/>";
-            value += "<div style='font-weight:bold;'>Grundton: </div>";
+    function getAmlObject(name, chord, base, genus, toneName, intervalName, extensions) {
+        var value = "";
+        console.log(name, toneName);
+        if (name) {
+            value += "<div><span style='font-weight:bold;'>Name:</span> " + name + "</div>";
+            value += "<hr/>";
+        } 
+        else if (toneName) {
+            var chromaticName = "";
+            switch (toneName) {
+            case "Des":
+                chromaticName = "Cis / Des";
+                break;
+            case "Es":
+                chromaticName = "Dis / Es";
+                break;
+            case "Fis":
+                chromaticName = "Fis / Ges";
+                break;
+            case "As":
+                chromaticName = "Gis / As";
+                break;
+            case "B":
+                chromaticName = "Ais / B";
+                break;
+            default:
+                chromaticName = toneName;
+                break;
+            }
+            value += "<div><span style='font-weight:bold;'>Tonname:</span> " + chromaticName + "</div>";
+            value += "<hr/>";
+        } 
+        else {
+            value += "<div><span style='font-weight:bold;'>Name:</span> - </div>";
+            value += "<hr/>";
+        }
+        if (base) {
+            value += "<div><span style='font-weight:bold;'>Grundton:</span></div>";
             value += "<div style='margin-left: 20px;'>" + base + "</div>";
-            value += "<div style='font-weight:bold;'>Tongeschlecht: </div>";
-            value += "<div style='margin-left: 20px;'>" + genus + "</div>";
-            value += "<div style='font-weight:bold;'>Dissonanzen:</div>";
-            value += "<div style='margin-left: 20px;'>" + extensions + "</div>";
-            return value;
         }
+        if (toneName && (name != toneName)) {
+            value += "<div><span style='font-weight:bold;'>Tonname:</span></div>";
+            value += "<div style='margin-left: 20px;'>" + toneName + "</div>";
+        }
+        if (intervalName && (name != intervalName)) {
+            value += "<div><span style='font-weight:bold;'>Intervallname:</span></div>";
+            value += "<div style='margin-left: 20px;'>" + intervalName + "</div>";
+        }
+        if(genus) {
+            value += "<div><span style='font-weight:bold;'>Tongeschlecht:</span></div>";
+            value += "<div style='margin-left: 20px;'>" + genus + "</div>";
+        }
+        if (extensions) {
+            value += "<div><span style='font-weight:bold;'>Klangzusätze:</span></div>";
+            value += "<div style='margin-left: 20px;'>" + extensions + "</div>";
+        }
+        return value;
+    }
 
-        function d7Value(intervalPattern) {
-            if (intervalPattern === "04710" || intervalPattern === "0410" || intervalPattern === "0710" || intervalPattern === "036" || intervalPattern === "010") {
-                return true;
-            }
-            else {
-                return false;
-            }
+    function d7Value(intervalPattern) {
+        if (intervalPattern === "04710" || intervalPattern === "0410" || intervalPattern === "0710" || intervalPattern === "036" || intervalPattern === "010") {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
