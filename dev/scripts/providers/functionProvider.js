@@ -1,4 +1,4 @@
-define(["providers/providerHelper", "providers/functionHelper", "providers/NameHelper"], function (providerHelper, functionHelper, nameHelper) {
+define(["providers/providerHelper", "providers/functionHelper", "providers/nameHelper"], function (providerHelper, functionHelper, nameHelper) {
 
     return function(noteSet, language) {
 

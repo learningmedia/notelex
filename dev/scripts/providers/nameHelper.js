@@ -52,7 +52,6 @@ define(["providers/providerHelper"], function (providerHelper) {
     }
 
     function getDvToneName(baseToneName) {
-        console.log(baseToneName);
         switch (baseToneName) {
             case "Des":
             case "E":

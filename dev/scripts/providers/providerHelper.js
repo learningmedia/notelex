@@ -2,8 +2,8 @@ define(["calculationHelper"], function (calculationHelper) {
 
     function getTriadName(base, intervals, originalValues) {
 
-        var tn8 = getToneName(calculationHelper.mod(base + 8, 12), "Dur");
-        var tn9 = getToneName(calculationHelper.mod(base + 9, 12), "Moll oder vermindert");
+        var tn8 = getToneName(base + 8, "Dur");
+        var tn9 = getToneName(base + 9, "Moll oder vermindert");
 
         if (intervals.length === 2) {
 
@@ -26,7 +26,7 @@ define(["calculationHelper"], function (calculationHelper) {
                 return [tn8, "Dur", "Sextakkord"];
             }
             if (evaluateMidiValues(intervals, [0, 5, 9])) {
-                return [getToneName(calculationHelper.mod(base + 5, 12), "Dur"), "Dur", "Quartsextakkord"];
+                return [getToneName(base + 5, "Dur"), "Dur", "Quartsextakkord"];
             }
             if (evaluateMidiValues(intervals, [0, 3, 7])) {
                 return [getToneName(base, "Moll"), "Moll", "Grundakkord"];
@@ -35,7 +35,7 @@ define(["calculationHelper"], function (calculationHelper) {
                 return [tn9, "Moll", "Sextakkord"];
             }
             if (evaluateMidiValues(intervals, [0, 5, 8])) {
-                return [getToneName(calculationHelper.mod(base + 5, 12), "Moll"), "Moll", "Quartsextakkord"];
+                return [getToneName(base + 5, "Moll"), "Moll", "Quartsextakkord"];
             }
 
             if (evaluateMidiValues(intervals, [0, 3, 9])) {
@@ -134,9 +134,10 @@ define(["calculationHelper"], function (calculationHelper) {
         return true;
     }
 
-    function getToneName(midiValue, genus){
+    function getToneName(midiValue, genus) {
+        var normalizedValue = calculationHelper.mod(midiValue, 12);
         var key;
-        switch(midiValue){
+        switch (normalizedValue) {
             case 0: 
                 key = "C";
                 break;

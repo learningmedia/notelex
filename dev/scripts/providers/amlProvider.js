@@ -3,74 +3,51 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
     return function(noteSet, language) {
 
         var returnValue = "",
-            toneName,
+            intervalNumber,
+            name,
+            baseName,
+            genus,
+            bass,
+            intervalPattern,
             intervalName,
             values,
             enharmonicMessage,
-            extensions = "",
-            name,
-            chord;
+            extensions;
 
         if (!isNaN(noteSet.base)) {
 
             /* Get name parts (base, genus, ...) */
 
-            var intervalPattern = noteSet.intervals.join("");
+            intervalNumber = noteSet.intervals.length;
+            intervalPattern = noteSet.intervals.join("");
+            baseName = providerHelper.getToneName(noteSet.base, "Dur");
 
             if (noteSet.intervals.length == 1) {
-                toneName = providerHelper.getToneName(noteSet.base, "Dur");
-                name = toneName;
-                returnValue += getAmlObject(name, chord, null, null, toneName, intervalName, extensions);
+                name = baseName;
+                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, intervalName, extensions);
             }
+            
+            enharmonicMessage = nameHelper.getEnharmonicMessage(providerHelper.getToneName(baseName, "Dur"), "010");
 
             if (noteSet.intervals.length === 2) {
                 intervalName = providerHelper.getIntervalName(noteSet.intervals);
                 name = intervalName;
-                intervalPattern = noteSet.intervals.join("");
-                console.log("amlProvider: noteSet.intervals.length === 2 " + intervalName + " " + intervalPattern + " " + noteSet.intervals[0]);
-
-                switch (intervalPattern) {
-                case "010":
-                    enharmonicMessage = providerHelper.enharmonic("010", providerHelper.getToneName(noteSet.intervals[0], "Dur")) ? " - enharmonische Lesart erforderlich" : "";
-                    break;
-                default:
-                    /* Hier noch einen Default-Value überlegen */
-                    break;
-                }
-
-                returnValue += getAmlObject(name, chord, null, null, toneName, intervalName, extensions);
+                name += enharmonicMessage != "" ? "<br/><span style='color:maroon; font-style:italic;'>(" + enharmonicMessage + ")</span>" : enharmonicMessage;
+                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, intervalName, extensions);
             }
 
             if (noteSet.intervals.length === 3) {
-                
-                intervalPattern = noteSet.intervals.join("");
                 values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                var message = providerHelper.enharmonic(intervalPattern, values[0]) ? "<br/><span style='color:maroon; font-style:italic;'>(enharmonische Lesart erforderlich)</span>" : "";
-               
-                if (values && values.length >= 1) {
-                    chord = values[0] + "-" + values[1];
-                    name = chord;
-                    name += " " + message;
-                }
-
-                returnValue += getAmlObject(name, chord, values[0], values[1], toneName, intervalName, extensions);
+                name = nameHelper.getName(values, intervalPattern);
+                bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                returnValue += getAmlObject(intervalNumber, name, values[0], values[1], bass, intervalName, extensions);
             }
 
             if (noteSet.intervals.length === 4) {
                 values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                switch (intervalPattern) {
-                case "04710":
-                    enharmonicMessage = providerHelper.enharmonic("04710", values[0]) ? " - enharmonische Lesart erforderlich" : "";
-                    break;
-                default:
-                    /* Hier noch einen Default-Value überlegen */
-                    break;
-                }
+                name = nameHelper.getName(values, intervalPattern);
 
-                if (values && values.length >= 1) {
-                    chord = values[0] + "-" + values[1];
-                }
-                returnValue += getAmlObject(name, chord, values[0], values[1], toneName, intervalName, extensions);
+                returnValue += getAmlObject(intervalNumber, name, values[0], values[1], baseName, intervalName, extensions);
             }
 
         } else {
@@ -79,16 +56,12 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
         return language === "de" ? returnValue : null;
     };
 
-    function getAmlObject(name, chord, base, genus, toneName, intervalName, extensions) {
+    function getAmlObject(intervalNumber, name, base, genus, bass, intervalName, extensions) {
         var value = "";
-        console.log(name, toneName);
-        if (name) {
-            value += "<div><span style='font-weight:bold;'>Name:</span> " + name + "</div>";
-            value += "<hr/>";
-        } 
-        else if (toneName) {
+
+        if (intervalNumber === 1) {
             var chromaticName = "";
-            switch (toneName) {
+            switch (name) {
             case "Des":
                 chromaticName = "Cis / Des";
                 break;
@@ -105,36 +78,41 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 chromaticName = "Ais / B";
                 break;
             default:
-                chromaticName = toneName;
+                chromaticName = bass;
                 break;
             }
             value += "<div><span style='font-weight:bold;'>Tonname:</span> " + chromaticName + "</div>";
-            value += "<hr/>";
-        } 
+        }
+        else if (intervalNumber === 2) {
+            value += "<div><span style='font-weight:bold;'>Intervallname:</span> " + intervalName + "</div>";
+        }
         else {
-            value += "<div><span style='font-weight:bold;'>Name:</span> - </div>";
-            value += "<hr/>";
+            if (name) {
+                value += "<div><span style='font-weight:bold;'>Name:</span> " + name + "</div>";
+                value += "<hr/>";
+            }
+            if (base) {
+                value += "<div><span style='font-weight:bold;'>Grundton:</span></div>";
+                value += "<div style='margin-left: 20px;'>" + base + "</div>";
+            }
+            if (bass) {
+                value += "<div><span style='font-weight:bold;'>Basston:</span></div>";
+                value += "<div style='margin-left: 20px;'>" + bass + "</div>";
+            }
+            if (intervalName) {
+                value += "<div><span style='font-weight:bold;'>Intervallname:</span></div>";
+                value += "<div style='margin-left: 20px;'>" + intervalName + "</div>";
+            }
+            if (genus) {
+                value += "<div><span style='font-weight:bold;'>Tongeschlecht:</span></div>";
+                value += "<div style='margin-left: 20px;'>" + genus + "</div>";
+            }
+            if (extensions) {
+                value += "<div><span style='font-weight:bold;'>Klangzusätze:</span></div>";
+                value += "<div style='margin-left: 20px;'>" + extensions + "</div>";
+            }
         }
-        if (base) {
-            value += "<div><span style='font-weight:bold;'>Grundton:</span></div>";
-            value += "<div style='margin-left: 20px;'>" + base + "</div>";
-        }
-        if (toneName && (name != toneName)) {
-            value += "<div><span style='font-weight:bold;'>Tonname:</span></div>";
-            value += "<div style='margin-left: 20px;'>" + toneName + "</div>";
-        }
-        if (intervalName && (name != intervalName)) {
-            value += "<div><span style='font-weight:bold;'>Intervallname:</span></div>";
-            value += "<div style='margin-left: 20px;'>" + intervalName + "</div>";
-        }
-        if(genus) {
-            value += "<div><span style='font-weight:bold;'>Tongeschlecht:</span></div>";
-            value += "<div style='margin-left: 20px;'>" + genus + "</div>";
-        }
-        if (extensions) {
-            value += "<div><span style='font-weight:bold;'>Klangzusätze:</span></div>";
-            value += "<div style='margin-left: 20px;'>" + extensions + "</div>";
-        }
+        
         return value;
     }
 
