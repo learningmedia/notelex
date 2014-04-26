@@ -6,6 +6,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             intervalNumber,
             name,
             baseName,
+            baseAndGenus,
+            nameParts,
             genus,
             bass,
             behavior,
@@ -26,44 +28,40 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 name = bass = baseName;
                 var chromaticName = "";
                 switch (name) {
-                    case "Des":
-                        chromaticName = "Cis / Des";
-                        break;
-                    case "Es":
-                        chromaticName = "Dis / Es";
-                        break;
-                    case "Fis":
-                        chromaticName = "Fis / Ges";
-                        break;
-                    case "As":
-                        chromaticName = "Gis / As";
-                        break;
-                    case "B":
-                        chromaticName = "Ais / B";
-                        break;
-                    default:
-                        chromaticName = name;
-                        break;
+                case "Des":
+                    chromaticName = "Cis / Des";
+                    break;
+                case "Es":
+                    chromaticName = "Dis / Es";
+                    break;
+                case "Fis":
+                    chromaticName = "Fis / Ges";
+                    break;
+                case "As":
+                    chromaticName = "Gis / As";
+                    break;
+                case "B":
+                    chromaticName = "Ais / B";
+                    break;
+                default:
+                    chromaticName = name;
+                    break;
                 }
-                returnValue += getAmlObject(intervalNumber, chromaticName, baseName, genus, bass, behavior, intervalName, extensions);
             }
-            
+
             if (noteSet.intervals.length === 2) {
                 name = providerHelper.getIntervalName(noteSet.intervals);
                 name = nameHelper.getEnharmonicIntervalName(name, noteSet.base);
-                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
             }
 
             if (noteSet.intervals.length === 3) {
+
                 name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                var nameParts = name.split("#");
-                var baseAndGenus = nameParts[0].split("-");
-                baseName = baseAndGenus[0];
-                var firstLetter = baseName.charAt(0);
-                baseName = firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
-                genus = baseAndGenus[1];
-                behavior = nameParts[1];
-                name = name.replace("#", " ");
+                nameParts = name.split("-");
+                baseName = nameParts[0];
+                genus = nameParts[1];
+
+                baseName = toUpperFirstLetter(baseName);
                 if (genus == "übermäßiger" || genus == "verminderter") {
                     genus = genus.slice(0, -2);
                 }
@@ -74,16 +72,59 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 if (enharmonicMessage != "") {
                     name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
                 }
-                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
+                if (nameParts.length === 2) {
+                    name = nameParts[0] + " " + nameParts[1];
+                } else {
+                    name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
+                }
             }
 
-            //if (noteSet.intervals.length === 4) {
-            //    values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-            //    name = nameHelper.getName(values, intervalPattern);
+            if (noteSet.intervals.length === 4) {
+                name = nameHelper.getSeventhChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                nameParts = name.split("#");
+                baseAndGenus = nameParts[1].split("-");
+                baseName = baseAndGenus[0];
+                baseName = toUpperFirstLetter(baseName);
+                genus = baseAndGenus[1];
+                if (genus == "übermäßiger" || genus == "verminderter") {
+                    genus = genus.slice(0, -2);
+                }
+                if (name) {
+                    bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                }
+                enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
+                if (enharmonicMessage != "") {
+                    name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
+                }
+                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " (" + nameParts[3] + ")";
+            }
 
-            //    returnValue += getAmlObject(intervalNumber, name, values[0], values[1], baseName, behavior, intervalName, extensions);
-            //}
+            behavior = providerHelper.getBehavior(intervalPattern);
+            name += " ";
+            name += behavior;
 
+            extensions = getExtensions(intervalPattern);
+
+            returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
+
+            function getExtensions(pattern) {
+                switch (pattern) {
+                    //dominant 7th chord
+                case "04710":
+                case "0368":
+                case "0359":
+                case "0269":
+                    return "kleine Septime";
+                //minor 7th chord
+                case "03710":
+                case "0479":
+                case "0358":
+                case "0259":
+                    return "kleine Septime bzw. große Sexte";
+                default:
+                    return null;
+                }
+            }
         }
 
         return language === "de" ? returnValue : null;
@@ -132,11 +173,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
         return value;
     }
 
-    function d7Value(intervalPattern) {
-        if (intervalPattern === "04710" || intervalPattern === "0410" || intervalPattern === "0710" || intervalPattern === "036" || intervalPattern === "010") {
-            return true;
-        } else {
-            return false;
-        }
+    function toUpperFirstLetter(baseName) {
+        var firstLetter = baseName.charAt(0);
+        return firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
     }
 });

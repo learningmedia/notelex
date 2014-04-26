@@ -6,7 +6,9 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             name = "",
             toneName = "",
             chord = "",
+            behavior,
             chordParts,
+            nameParts,
             enharmonicMessage,
             intervalPattern,
             majorFunctions,
@@ -22,21 +24,27 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
                 var incompleteName = nameHelper.getIncompletChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 if (incompleteName != "") {
                     name = incompleteName;
-                }
-                var nameParts = name.split("#");
-
-                if (nameParts.length === 2) {
-                    chord = nameParts[0];
-                    chordParts = chord.split("-");
-                    toneName = chordParts[0];
-                    name = nameParts[0] + " " + nameParts[1];
-                }
-                if (nameParts.length === 3) {
+                    nameParts = name.split("#");
                     chord = nameParts[1];
                     chordParts = chord.split("-");
                     toneName = chordParts[0];
                     name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
+                } else {
+                    chordParts = name.split(" ");
+                    chord = toneName = chordParts[0];
+                    behavior = providerHelper.getBehavior(noteSet.intervals.join(""));
+                    name += " ";
+                    name += behavior;
                 }
+            }
+
+            if (noteSet.intervals.length == 4) {
+                name = nameHelper.getSeventhChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                nameParts = name.split("#");
+                chord = nameParts[1];
+                chordParts = chord.split("-");
+                toneName = chordParts[0];
+                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " - " + nameParts[3];
             }
 
             /* Get message for enharmonic */
@@ -44,7 +52,6 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             //console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
 
             /* Flag for special cases of function theory */
-            console.log(intervalPattern);
             switch (intervalPattern) {
             case "036":
             case "039":
@@ -61,7 +68,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             default:
                 break;
             }
-
+            debugger;
             /* Get function-theory output (major and minor mode) */
             majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
             minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);

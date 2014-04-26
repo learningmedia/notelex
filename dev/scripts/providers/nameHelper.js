@@ -9,7 +9,7 @@ define(["providers/providerHelper"], function (providerHelper) {
 
         var values3 = providerHelper.getTriadName(base, intervals, originalValues);
         if (values3.length !== 0) {
-            valuesOutput += values3[0] + "-" + values3[1] + "#" + values3[2];
+            valuesOutput += values3[0] + "-" + values3[1];
         }
 
         return valuesOutput;
@@ -34,21 +34,11 @@ define(["providers/providerHelper"], function (providerHelper) {
     function getSeventhChordName(base, intervals, originalValues) {
 
         var valuesOutput = "";
-        var values3 = providerHelper.getTriadName(base, intervals, originalValues);
-        var valuesI = providerHelper.getIncompletChordNames(base, intervals, originalValues);
         var values4 = providerHelper.getTetradName(base, intervals, originalValues);
 
-        if (values3.length !== 0) {
-            valuesOutput += values3[0] + "-" + values3[1] + "#" + values3[2];
+        if (values4.length !== 0) {
+            valuesOutput = values4[2] + "#" + values4[0] + "-" + values4[1] + "#" + values4[3] + "#" + values4[4];
         }
-
-        if (valuesI.length !== 0) {
-            valuesOutput = valuesI[2] + "#" + valuesI[0] + "-" + valuesI[1] + "#" + valuesI[3] + " " + valuesI[4];
-        }
-
-        //if (values4.length !== 0) {
-
-        //}
 
         return valuesOutput;
     }
