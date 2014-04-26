@@ -63,9 +63,12 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
 
             /* Link outout parts */
-            returnValue = getNameObject(name, enharmonicMessage);
-            returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
-            returnValue += getNote();
+            if (name == "") {
+                returnValue = null;
+            } else {
+                returnValue = getNameObject(name, enharmonicMessage);
+                returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
+                returnValue += getNote();}
         }
 
         return language === "de" ? returnValue : null;

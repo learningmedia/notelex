@@ -23,41 +23,46 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             intervalPattern = noteSet.intervals.join("");
             baseName = providerHelper.getToneName(noteSet.base, "Dur");
 
-            //if (noteSet.intervals.length == 1) {
-            //    name = baseName;
-            //    returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
-            //}
+            if (noteSet.intervals.length == 1) {
+                name = bass = baseName;
+                var chromaticName = "";
+                switch (name) {
+                    case "Des":
+                        chromaticName = "Cis / Des";
+                        break;
+                    case "Es":
+                        chromaticName = "Dis / Es";
+                        break;
+                    case "Fis":
+                        chromaticName = "Fis / Ges";
+                        break;
+                    case "As":
+                        chromaticName = "Gis / As";
+                        break;
+                    case "B":
+                        chromaticName = "Ais / B";
+                        break;
+                    default:
+                        chromaticName = name;
+                        break;
+                }
+
+                returnValue += getAmlObject(intervalNumber, chromaticName, baseName, genus, bass, behavior, intervalName, extensions);
+            }
             
-            //enharmonicMessage = nameHelper.getEnharmonicMessage(providerHelper.getToneName(baseName, "Dur"), "010");
+            if (noteSet.intervals.length === 2) {
+                name = providerHelper.getIntervalName(noteSet.intervals);
+                name = nameHelper.getEnharmonicIntervalName(name, noteSet.base);
+                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
+            }
 
-            //if (noteSet.intervals.length === 2) {
-            //    intervalName = providerHelper.getIntervalName(noteSet.intervals);
-            //    name = intervalName;
-            //    name += enharmonicMessage != "" ? "<br/><span style='color:maroon; font-style:italic;'>(" + enharmonicMessage + ")</span>" : enharmonicMessage;
-            //    returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
-            //}
+            enharmonicMessage = nameHelper.getEnharmonicMessage(providerHelper.getToneName(baseName, "Dur"), "010");
 
-            //if (noteSet.intervals.length === 3) {
-            //    values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-            //    switch(intervalPattern) {
-            //        case "036":
-            //            name = nameHelper.getName(values, intervalPattern);
-            //            break;
-            //        default:
-            //            name = nameHelper.getName(values, intervalPattern);
-            //            break;
-            //    }
-                
-            //    bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
-            //    behavior = values[2];
-            //    switch (intervalPattern) {
-            //        case "0410":
-            //            extensions = "mit kleiner Septime";
-            //        default:
-            //            break;
-            //    }
-            //    returnValue += getAmlObject(intervalNumber, name, values[0], values[1], bass, behavior, intervalName, extensions);
-            //}
+            if (noteSet.intervals.length === 3) {
+                name = nameHelper.getName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                returnValue += getAmlObject(intervalNumber, name, null, null, bass, behavior, intervalName, extensions);
+            }
 
             //if (noteSet.intervals.length === 4) {
             //    values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
@@ -66,9 +71,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             //    returnValue += getAmlObject(intervalNumber, name, values[0], values[1], baseName, behavior, intervalName, extensions);
             //}
 
-        } else {
-            returnValue = "unbestimmt";
         }
+
         return language === "de" ? returnValue : null;
     };
 
@@ -76,31 +80,10 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
         var value = "";
 
         if (intervalNumber === 1) {
-            var chromaticName = "";
-            switch (name) {
-            case "Des":
-                chromaticName = "Cis / Des";
-                break;
-            case "Es":
-                chromaticName = "Dis / Es";
-                break;
-            case "Fis":
-                chromaticName = "Fis / Ges";
-                break;
-            case "As":
-                chromaticName = "Gis / As";
-                break;
-            case "B":
-                chromaticName = "Ais / B";
-                break;
-            default:
-                chromaticName = bass;
-                break;
-            }
-            value += "<div><span style='font-weight:bold;'>Tonname:</span> " + chromaticName + "</div>";
+            value += "<div><span style='font-weight:bold;'>Tonname:</span> " + name + "</div>";
         }
         else if (intervalNumber === 2) {
-            value += "<div><span style='font-weight:bold;'>Intervallname:</span> " + intervalName + "</div>";
+            value += "<div><span style='font-weight:bold;'>Intervallname:</span> " + name + "</div>";
         }
         else {
             if (name) {

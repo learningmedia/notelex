@@ -63,7 +63,7 @@ define(["calculationHelper"], function (calculationHelper) {
             case 5:
                 return "Quarte";
             case 6:
-                return "übermäßige Quarte / verminderte Quinte";
+                return "Tritonus";
             case 7:
                 return "Quinte";
             case 8:
