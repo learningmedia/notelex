@@ -125,7 +125,7 @@ define(["providers/providerHelper"], function (providerHelper) {
                     name = "übermäßige Quarte (F-Ces = verminderte Quinte)";
                     break;
                 case 6:
-                    name = "verminderte Quinte (Fis-His= übermäßige Quarte)";
+                    name = "verminderte Quinte (Fis-His = übermäßige Quarte)";
                     break;
                 case 7:
                     name = "übermäßige Quarte (G-Des = verminderte Quinte)";

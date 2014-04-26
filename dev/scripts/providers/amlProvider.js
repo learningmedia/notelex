@@ -99,11 +99,12 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " (" + nameParts[3] + ")";
             }
 
-            behavior = providerHelper.getBehavior(intervalPattern);
-            name += " ";
-            name += behavior;
-
-            extensions = getExtensions(intervalPattern);
+            if (noteSet.intervals.length > 2) {
+                behavior = providerHelper.getBehavior(intervalPattern);
+                name += " ";
+                name += behavior;
+                extensions = getExtensions(intervalPattern);
+            }
 
             returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
 
