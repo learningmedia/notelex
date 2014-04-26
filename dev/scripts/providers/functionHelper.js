@@ -173,7 +173,6 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getDiminishedOutPut(noteSet, genus) {
-
         var pattern = getOriginalValuesMod12(noteSet);
         switch (pattern) {
             case "0:3:6:":
@@ -181,10 +180,10 @@ define(["calculationHelper"], function (calculationHelper) {
             case "6:0:3:":
                 if (genus === "Dur") {
                     return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S<sup>N</sup> = in der Notation C-Es-Ges Dominantseptakkord (ohne Grundton As) zum Grundakkord des Neapolitaners (verkürzte Zwischendominante zum Neapolitaner)</span><br/>" +
-                        "2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp;&nbsp;) D = in der Notation C-Es-Fis Dominantseptakkord mit kleiner None (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
+                        "2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp; D = in der Notation C-Es-Fis Dominantseptakkord mit kleiner None (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
                 }
                 return "1.)&nbsp;&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) S<sup>N</sup> = in der Notation C-Es-Ges Dominantseptakkord (ohne Grundton As) zum Grundakkord des Neapolitaners (verkürzte Zwischendominante zum Neapolitaner)</span><br/>" +
-                    "2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp;&nbsp;) D = in der Notation C-Es-Fis Dominantseptakkordnonakkord (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
+                    "2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>7</sub><sup style='position:absolut; margin:-7px;'>9></sup></sup>&nbsp; D = in der Notation C-Es-Fis Dominantseptakkordnonakkord (ohne Grundton D und Quinte A) zur Dominante (verkürzte Doppeldominantseptnonakkord)";
             case "1:4:7:":
             case "4:7:1:":
             case "7:1:4:":
@@ -218,6 +217,10 @@ define(["calculationHelper"], function (calculationHelper) {
                     return "Noch einfügen...";
                 }
                 return "Noch einfügen...";
+            case "6:9:0:":
+            case "9:0:6:":
+            case "0:6:9:":
+                return "&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7</sup> D = in der Notation Fis-A-C Dominantseptakkord mit Septime (ohne Grundton D) zur Dominante (verkürzte Doppeldominantseptakkord)";
             case "4:7:10:":
             case "7:10:4:":
             case "10:4:7:":

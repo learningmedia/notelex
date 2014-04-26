@@ -2,10 +2,11 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
 
     return function(noteSet, language) {
 
-        var returnValue,
+        var returnValue = "",
             name,
-            values,
-            chord,
+            toneName = "",
+            chord = "",
+            chordParts,
             enharmonicMessage,
             intervalPattern,
             majorFunctions,
@@ -13,57 +14,60 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
 
         if (!isNaN(noteSet.base)) {
 
-            /* Get name parts for the header of the HTML output */
-            values = providerHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+            /* Get name for intervals an chords */
+            name = nameHelper.getName(noteSet.base, noteSet.intervals, noteSet.originalValues);
 
-            /* Compose the function theory output */
-            if (values[0] === undefined) {
-                returnValue = "unbestimmt";
+            /* Internal pattern for searching output */
+            intervalPattern = noteSet.intervals.join("");
+
+            //Get chord for available functions
+            var nameParts = name.split("#");
+            if (nameParts.length == 2) {
+                chord = nameParts[0];
+                chordParts = chord.split("-");
+                toneName = chordParts[0];
+                name = nameParts[0] + " " + nameParts[1];
             }
-            else {
-
-                /* Internal pattern for searching output */
-                intervalPattern = noteSet.intervals.join("");
-
-                /* Get name for intervals an chords */
-                name = nameHelper.getName(values, intervalPattern);
-
-                /* Get message for enharmonic */
-                enharmonicMessage = nameHelper.getEnharmonicMessage(values[0], intervalPattern);
-                //console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
-
-                /* Flag for special cases of function theory */
-                switch (intervalPattern) {
-                case "036":
-                case "039":
-                case "069":
-                case "0369":
-                    chord = "dmc"; //diminished seven
-                    break;
-                case "0479":
-                    chord = "sad"; //sixte ajoutée in major mode
-                    break;
-                case "0379":
-                    chord = "sam"; //sixte ajoutée in minor mode
-                    break;
-                default:
-                    chord = values[0] + "-" + values[1];
-                    break;
-                }
-
-                /* Get function-theory output (major and minor mode) */
-                majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
-                minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
-
-                /* Link outout parts */
-                returnValue = getNameObject(name, enharmonicMessage);
-                returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
-                returnValue += getNote();
+            if (nameParts.length == 3) {
+                chord = nameParts[1];
+                chordParts = chord.split("-");
+                toneName = chordParts[0];
+                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
             }
+
+            /* Get message for enharmonic */
+            enharmonicMessage = nameHelper.getEnharmonicMessage(toneName, intervalPattern);
+            //console.log("functionProvider: nameHelper.getEnharmonicMessage("+ values[0] + ", " + intervalPattern + ")" + " = " + enharmonicMessage);
+
+            /* Flag for special cases of function theory */
+            console.log(intervalPattern);
+            switch (intervalPattern) {
+            case "036":
+            case "039":
+            case "069":
+            case "0369":
+                chord = "dmc"; //diminished seven
+                break;
+            case "0479":
+                chord = "sad"; //sixte ajoutée in major mode
+                break;
+            case "0379":
+                chord = "sam"; //sixte ajoutée in minor mode
+                break;
+            default:
+                break;
+            }
+
+            /* Get function-theory output (major and minor mode) */
+            majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
+            minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
+
+            /* Link outout parts */
+            returnValue = getNameObject(name, enharmonicMessage);
+            returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
+            returnValue += getNote();
         }
-        else {
-            returnValue = "unbestimmt";
-        }
+
         return language === "de" ? returnValue : null;
     };
 
