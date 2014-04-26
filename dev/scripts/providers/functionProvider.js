@@ -3,7 +3,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
     return function(noteSet, language) {
 
         var returnValue = "",
-            name,
+            name = "",
             toneName = "",
             chord = "",
             chordParts,
@@ -14,25 +14,29 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
 
         if (!isNaN(noteSet.base)) {
 
-            /* Get name for intervals an chords */
-            name = nameHelper.getName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-
             /* Internal pattern for searching output */
             intervalPattern = noteSet.intervals.join("");
 
-            //Get chord for available functions
-            var nameParts = name.split("#");
-            if (nameParts.length == 2) {
-                chord = nameParts[0];
-                chordParts = chord.split("-");
-                toneName = chordParts[0];
-                name = nameParts[0] + " " + nameParts[1];
-            }
-            if (nameParts.length == 3) {
-                chord = nameParts[1];
-                chordParts = chord.split("-");
-                toneName = chordParts[0];
-                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
+            if (noteSet.intervals.length == 3) {
+                name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                var incompleteName = nameHelper.getIncompletChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                if (incompleteName != "") {
+                    name = incompleteName;
+                }
+                var nameParts = name.split("#");
+
+                if (nameParts.length === 2) {
+                    chord = nameParts[0];
+                    chordParts = chord.split("-");
+                    toneName = chordParts[0];
+                    name = nameParts[0] + " " + nameParts[1];
+                }
+                if (nameParts.length === 3) {
+                    chord = nameParts[1];
+                    chordParts = chord.split("-");
+                    toneName = chordParts[0];
+                    name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
+                }
             }
 
             /* Get message for enharmonic */
@@ -62,7 +66,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
             minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
 
-            /* Link outout parts */
+            /* Connect output parts */
             if (name == "") {
                 returnValue = null;
             } else {

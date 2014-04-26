@@ -1,12 +1,43 @@
 define(["providers/providerHelper"], function (providerHelper) {
 
-    function getName(base, intervals, originalValues) {
+    function getTriadName(base, intervals, originalValues) {
+
+        var valuesOutput = "";
+        if (intervals.length != 3) {
+            return valuesOutput;
+        }
+
+        var values3 = providerHelper.getTriadName(base, intervals, originalValues);
+        if (values3.length !== 0) {
+            valuesOutput += values3[0] + "-" + values3[1] + "#" + values3[2];
+        }
+
+        return valuesOutput;
+    }
+
+    function getIncompletChordName(base, intervals, originalValues) {
+
+        var valuesOutput = "";
+        if (intervals.length != 3) {
+            return valuesOutput;
+        }
+
+        var valuesI = providerHelper.getIncompletChordNames(base, intervals, originalValues);
+
+        if (valuesI.length !== 0) {
+            valuesOutput = valuesI[2] + "#" + valuesI[0] + "-" + valuesI[1] + "#" + valuesI[3] + " " + valuesI[4];
+        }
+
+        return valuesOutput;
+    }
+
+    function getSeventhChordName(base, intervals, originalValues) {
 
         var valuesOutput = "";
         var values3 = providerHelper.getTriadName(base, intervals, originalValues);
         var valuesI = providerHelper.getIncompletChordNames(base, intervals, originalValues);
         var values4 = providerHelper.getTetradName(base, intervals, originalValues);
-        
+
         if (values3.length !== 0) {
             valuesOutput += values3[0] + "-" + values3[1] + "#" + values3[2];
         }
@@ -16,7 +47,7 @@ define(["providers/providerHelper"], function (providerHelper) {
         }
 
         //if (values4.length !== 0) {
-            
+
         //}
 
         return valuesOutput;
@@ -172,7 +203,9 @@ define(["providers/providerHelper"], function (providerHelper) {
     }
 
     return {
-        getName: getName,
+        getTriadName: getTriadName,
+        getIncompletChordName: getIncompletChordName,
+        getSeventhChordName: getSeventhChordName,
         getEnharmonicIntervalName: getEnharmonicIntervalName,
         getEnharmonicMessage: getEnharmonicMessage
     }

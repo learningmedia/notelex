@@ -11,7 +11,6 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             behavior,
             intervalPattern,
             intervalName,
-            values,
             enharmonicMessage,
             extensions;
 
@@ -46,7 +45,6 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                         chromaticName = name;
                         break;
                 }
-
                 returnValue += getAmlObject(intervalNumber, chromaticName, baseName, genus, bass, behavior, intervalName, extensions);
             }
             
@@ -56,12 +54,27 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
             }
 
-            enharmonicMessage = nameHelper.getEnharmonicMessage(providerHelper.getToneName(baseName, "Dur"), "010");
-
             if (noteSet.intervals.length === 3) {
-                name = nameHelper.getName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
-                returnValue += getAmlObject(intervalNumber, name, null, null, bass, behavior, intervalName, extensions);
+                name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                var nameParts = name.split("#");
+                var baseAndGenus = nameParts[0].split("-");
+                baseName = baseAndGenus[0];
+                var firstLetter = baseName.charAt(0);
+                baseName = firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
+                genus = baseAndGenus[1];
+                behavior = nameParts[1];
+                name = name.replace("#", " ");
+                if (genus == "übermäßiger" || genus == "verminderter") {
+                    genus = genus.slice(0, -2);
+                }
+                if (name) {
+                    bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                }
+                enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
+                if (enharmonicMessage != "") {
+                    name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
+                }
+                returnValue += getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
             }
 
             //if (noteSet.intervals.length === 4) {
