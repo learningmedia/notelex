@@ -3,15 +3,14 @@
     $(function () {
 
         var theoryProviders = providerFactory.getProviders(),
-            currentProvider = 0,
-            currentLanguage = "de",
-            currentResults = calculateResults(theoryProviders, currentProvider, noteSet(), currentLanguage);
+            currentProvider = theoryProviders[0].key,
+            currentLanguage = "de";
 
         $("#piano").klavier({
             startKey: 48,
             endKey: 72,
             selectionMode: "multiple",
-            onSelectedValuesChanged: replaceHash
+            onSelectedValuesChanged: changeContent
         });
 
         $("#languagePicker input:radio").on("click", function () {
@@ -20,16 +19,14 @@
         });
 
         $("#theoryHeaders").on("click", ".header", function (ev) {
-            var $element = $(ev.target),
-                newIndex = parseInt($element.attr("data-index"), 10);
-            currentProvider = newIndex;
-            replaceHash();
+            currentProvider = $(ev.target).attr("data-provider");
+            changeContent();
         });
 
         hash.addListener(refresh);
         hash.startListening();
 
-        function replaceHash() {
+        function changeContent() {
             var keys = $("#piano").klavier("getSelectedValues");
             hash.replaceHash(createHash(keys, currentProvider));
         }
@@ -46,7 +43,7 @@
                 keys = [],
                 keyStr,
                 i;
-            query.p = query.p || 0;
+            query.p = query.p || theoryProviders[0].key;
             query.k = query.k || "";
             for (i = 0; i < query.k.length; i += 2) {
                 keyStr = query.k.substring(i, i + 2);
@@ -70,42 +67,36 @@
 
         function refresh() {
             var decoded = parseHash(hash.getCurrentHash()),
-                keys = decoded.keys;
+                currentResults;
             currentProvider = decoded.provider;
-            $("#piano").klavier("setSelectedValues", keys);
-            notation.createNoteRenderer($("#score canvas")[0]).renderKeys(keys);
-
-            currentResults = calculateResults(theoryProviders, currentProvider, keys, currentLanguage);
+            $("#piano").klavier("setSelectedValues", decoded.keys);
+            notation.createNoteRenderer($("#score canvas")[0]).renderKeys(decoded.keys);
+            currentResults = calculateResults(theoryProviders, currentProvider, decoded.keys, currentLanguage);
             showHeaders("#theoryHeaders", "#header-template", currentResults, currentLanguage);
             $("#results article").removeClass().addClass("theory-" + currentProvider).addClass(currentResults[currentProvider].content ? "enabled" : "disabled");
             showContent(currentResults);
         }
 
-        function calculateResults(providers, selectedProviderIndex, keys, language) {
-            var results = [],
-                set = noteSet(keys),
-                provider,
-                i;
-
-            for (i = 0; i < providers.length; i += 1) {
-                provider = providers[i];
-                results.push({
-                    index: i,
+        function calculateResults(providers, selectedProvider, keys, language) {
+            var set = noteSet(keys);
+            return providers.map(function (provider) {
+                var isSelected = provider.key.toUpperCase() == selectedProvider.toUpperCase();
+                return {
+                    key: provider.key,
                     name: provider.getName(language),
                     header: provider.getHeader(language),
-                    content: provider.getContent(set, language),
-                    selected: i === selectedProviderIndex
-                });
-            }
-            return results;
+                    content: isSelected ? provider.getContent(set, language) : null,
+                    selected: isSelected
+                };
+            });
         }
 
         function showHeaders(parentElementId, headerTemplateId, results) {
             var headerContainer = $(parentElementId);
             headerContainer.empty();
             results.forEach(function (result) {
-                var link = $("<a></a>").addClass("header").attr("title", result.name).attr("data-index", result.index).text(result.header);
-                var item = $("<li></li>").addClass("theory-" + result.index).addClass(result.content ? "enabled" : "disabled").addClass(result.selected ? "selected" : "unselected");
+                var link = $("<a></a>").addClass("header").attr("title", result.name).attr("data-provider", result.key).text(result.header);
+                var item = $("<li></li>").addClass("theory-" + result.key).addClass(result.content ? "enabled" : "disabled").addClass(result.selected ? "selected" : "unselected");
                 link.appendTo(item);
                 item.appendTo(headerContainer);
             });
