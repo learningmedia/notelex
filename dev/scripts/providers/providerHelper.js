@@ -160,38 +160,78 @@ define(["calculationHelper"], function (calculationHelper) {
     function getTetradName(base, intervals, originalValues) {
 
         //major 7th chord
-
+        if (evaluateMidiValues(intervals, [0, 4, 7, 11])) {
+            return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 7, 8])) {
+            return [getToneName(base + 8, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 4, 5, 9])) {
+            return [getToneName(base + 5, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 1, 5, 8])) {
+            return [getToneName(base + 1, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        }
 
         //dominant 7th chord
         if (evaluateMidiValues(intervals, [0, 4, 7, 10])) {
-            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "Dominantseptakkord"];
+            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord)"];
         }
         if (evaluateMidiValues(intervals, [0, 3, 6, 8])) {
-            return [getToneName(base + 8, "Dur"), "Dur", "kleiner", "Septakkord", "Dominantseptakkord"];
+            return [getToneName(base + 8, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord)"];
         }
         if (evaluateMidiValues(intervals, [0, 3, 5, 9])) {
-            return [getToneName(base + 5, "Dur"), "Dur", "kleiner", "Septakkord", "Dominantseptakkord"];
+            return [getToneName(base + 5, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord)"];
         }
         if (evaluateMidiValues(intervals, [0, 2, 6, 9])) {
-            return [getToneName(base + 2, "Dur"), "Dur", "kleiner", "Septakkord", "Dominantseptakkord"];
+            return [getToneName(base + 2, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord)"];
         }
 
         //minor 7th chord
         if (evaluateMidiValues(intervals, [0, 3, 7, 10])) {
-            return [getToneName(base, "Moll"), "Moll", "kleiner", "Septakkord", "Quintakkord"];
+            return [getToneName(base, "Moll"), "Moll", "kleiner", "Septakkord", "(auch Sixte ajoutée mit Sexte " + getToneName(base, "Dur") + ")"];
         }
         if (evaluateMidiValues(intervals, [0, 4, 7, 9])) {
-            return [getToneName(base + 9, "Moll oder vermindert"), "Moll", "kleiner", "Quintsextakkord", "Sixte ajoutée über " + getToneName(base, "Dur") + " in Grundstellung"];
+            return [getToneName(base + 9, "Moll oder vermindert"), "Moll", "kleiner", "Quintsextakkord", "(auch Sixte ajoutée über " + getToneName(base, "Dur") + " in Grundstellung)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 5, 8])) {
+            return [getToneName(base + 5, "Moll oder vermindert"), "Moll", "kleiner", "Terzquartakkord", "(auch Sixte ajoutée über " + getToneName(base + 8, "Dur") + ")"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 5, 9])) {
+            return [getToneName(base + 2, "Moll oder vermindert"), "Moll", "kleiner", "Sekundakkord", "(auch Sixte ajoutée über " + getToneName(base + 5, "Dur") + ")"];
         }
 
         //half-diminished 7th chord
+        if (evaluateMidiValues(intervals, [0, 3, 6, 10])) {
+            return [getToneName(base, "Moll oder vermindert"), "verminderter", "kleiner", "Septakkord", "(auch Sixte ajoutée mit Sexte " + getToneName(base, "Dur") + ")"];
+        }
         if (evaluateMidiValues(intervals, [0, 3, 7, 9])) {
-            return [getToneName(base + 9, "Moll oder vermindert"), "verminderter", "kleiner", "Quintsextakkord", "Sixte ajoutée über " + getToneName(base, "Moll")];
+            return [getToneName(base + 9, "Moll oder vermindert"), "verminderter", "kleiner", "Quintsextakkord", "(auch Sixte ajoutée als Grundakkord)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 4, 6, 9])) {
+            return [getToneName(base + 6, "Moll oder vermindert"), "verminderter", "kleiner", "Terzquartakkord", "(auch Sixte ajoutée mit Sexte " + getToneName(base + 6, "Dur") + ")"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 5, 8])) {
+            return [getToneName(base + 2, "Moll oder vermindert"), "verminderter", "kleiner", "Sekundakkord", "(auch Sixte ajoutée mit Sexte " + getToneName(base + 2, "Dur") + ")"];
+        }
+
+        //major-minor 7th chord
+        if (evaluateMidiValues(intervals, [0, 3, 7, 11])) {
+            return [getToneName(base, "Moll"), "Moll", "großer", "Septakkord", "<br/><span style='font-size:0.8em';>(der große " + getToneName(base, "Moll") + "-Moll-Septakkkord ist keine Akkorddissonanz, sondern ein Moll-Dreiklang mit einer großen Septime als Intervalldissonanz)</span)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 4, 8, 9])) {
+            return [getToneName(base + 9, "Moll"), "Moll", "großer", "Quintsextakkord", "<br/><span style='font-size:0.8em';>(der große " + getToneName(base + 9, "Moll") + "-Moll-Septakkkord ist keine Akkorddissonanz, sondern ein Moll-Dreiklang mit einer großen Septime als Intervalldissonanz)</span)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 4, 5, 8])) {
+            return [getToneName(base + 5, "Moll"), "Moll", "großer", "Terzquartakkord", "<br/><span style='font-size:0.8em';>(der große " + getToneName(base + 5, "Moll") + "-Moll-Septakkkord ist keine Akkorddissonanz, sondern ein Moll-Dreiklang mit einer großen Septime als Intervalldissonanz)</span)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 1, 4, 8])) {
+            return [getToneName(base + 1, "Moll"), "Moll", "großer", "Sekundakkord", "<br/><span style='font-size:0.8em';>(der große " + getToneName(base + 1, "Moll") + "-Moll Septakkkord ist keine Akkorddissonanz, sondern ein Moll-Dreiklang mit einer großen Septime als Intervalldissonanz)</span)"];
         }
 
         //full-diminished 7h chord
         if (evaluateMidiValues(intervals, [0, 3, 6, 9])) {
-            return [getToneName(base, "vermindert"), "vermindert", "verminderter", "Septakkord", "ganzverminderter Septakkord"];
+            return [getToneName(base, "verminderter"), "verminderter", "vermindert", "Septakkord", "(ganzverminderter Septakkord)"];
         }
 
         return [];
@@ -273,7 +313,7 @@ define(["calculationHelper"], function (calculationHelper) {
             case "037":
             case "049":
             case "058":
-                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "es") {
+                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "cis" || toneToLowerCase === "es") {
                     return true;
                 }
                 else {
@@ -282,7 +322,7 @@ define(["calculationHelper"], function (calculationHelper) {
             case "038":
             case "047":
             case "059":
-                if(toneToLowerCase === "des" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h"){
+                if (toneToLowerCase === "des" || toneToLowerCase === "cis" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "h") {
                     return true;
                 }
                 else{
@@ -328,12 +368,12 @@ define(["calculationHelper"], function (calculationHelper) {
             case "04710":
             case "03710":
             case "03610":
-                return "Septakkord (Grundstellung)";
+                return "Grundakkord (Grundstellung)";
             case "0378":
             case "0368":
             case "0479":
             case "0379":
-                return "Quintsextakkord (1. Umkehrung)";
+                return "Quinsextakkord (1. Umkehrung)";
             case "0459":
             case "0359":
             case "0358":
@@ -349,6 +389,42 @@ define(["calculationHelper"], function (calculationHelper) {
         }
     }
 
+    function firstLetterToUpper(baseName, toUpperCase) {
+        var firstLetter = baseName.charAt(0);
+        if (toUpperCase) {
+            return firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
+        } else {
+            return firstLetter.toLowerCase() + baseName.slice(1, baseName.lastIndex);
+        }
+    }
+
+    function changeEnharmonicToneName(baseName) {
+        switch (baseName) {
+        case "Des":
+            return "Cis";
+        case "des":
+            return "cis";
+        case "Es":
+            return "Dis";
+        case "es":
+            return "dis";
+        case "Fis":
+            return "Ges";
+        case "fis":
+            return "ges";
+        case "As":
+            return "Gis";
+        case "as":
+            return "gis";
+        case "B":
+            return "Ais";
+        case "b":
+            return "ais";
+        default:
+            return baseName;
+        }
+    }
+
     return {
         getToneName: getToneName,
         getDvToneName:getDvToneName,
@@ -358,6 +434,8 @@ define(["calculationHelper"], function (calculationHelper) {
         getIncompletChordNames: getIncompletChordNames,
         getBehavior:getBehavior,
         evaluateMidiValues: evaluateMidiValues,
+        firstLetterToUpper: firstLetterToUpper,
+        changeEnharmonicToneName:changeEnharmonicToneName,
         enharmonic: enharmonic
     };
     

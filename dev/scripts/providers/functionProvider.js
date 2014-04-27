@@ -37,7 +37,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
                 }
             }
 
-            if (noteSet.intervals.length == 4) {
+            if (noteSet.intervals.length === 4) {
                 name = nameHelper.getSeventhChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("#");
                 chord = nameParts[1];
@@ -79,7 +79,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             } else {
                 returnValue = getNameObject(name, enharmonicMessage);
                 returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
-                returnValue += getNote();}
+            }
         }
 
         return language === "de" ? returnValue : null;
@@ -97,11 +97,5 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
         value += "<div style='font-weight:bold;'>Mögliche Funktionen in c-Moll: </div>";
         value += "<div style='margin-left: 20px;'>" + minorFunctions + "</div>";
         return value;
-    }
-
-    function getNote() {
-        return "<hr/><div style='font-size:0.8em'>Bitte beachten Sie grundsätzlich, dass Funktionssymbole eine Möglichkeit bieten anzugeben, wie ein Akkord gehört bzw. aufgefasst wird. " +
-            "Ein a-Moll-Akkord kann beispielsweise in C-Dur rein mechanisch Vertreter der Tonika (Tp) oder der Subdominante (Sg) sein, ein C-Dur kann Tonika in C oder Dominante in F sein. " +
-            "Für die Richtigkeit der Chiffrierung ist daher entscheidend, wie der Akkord aufgefasst wird.</div>";
     }
 });

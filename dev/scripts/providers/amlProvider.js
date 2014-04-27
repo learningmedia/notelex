@@ -55,33 +55,49 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             }
 
             if (noteSet.intervals.length === 3) {
-
                 name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("-");
+                switch (name) {
+                    case "des-Moll":
+                    case "Des-übermäßiger":
+                    case "Des-Dur":
+                        nameParts[0] = providerHelper.changeEnharmonicToneName(nameParts[0]);
+                        name = nameParts.join("-");
+                        break;
+                }
                 baseName = nameParts[0];
                 genus = nameParts[1];
+                behavior = providerHelper.getBehavior(intervalPattern);
+                extensions = getExtensions(intervalPattern);
 
-                baseName = firstLetterToUpper(baseName, true);
+                baseName = providerHelper.firstLetterToUpper(baseName, true);
                 if (genus == "übermäßiger" || genus == "verminderter") {
                     genus = genus.slice(0, -2);
                 }
                 if (name) {
+                    debugger;
                     bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                    bass = getEnharmonicBassToneName(name, bass);
                 }
                 if (nameParts.length === 2) {
-                    name = nameParts[0] + "-" + nameParts[1];
+                    name = nameParts[0] + "-" + nameParts[1] + " " + behavior;
                 } else {
                     name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
                 }
             }
 
             if (noteSet.intervals.length === 4) {
+
                 name = nameHelper.getSeventhChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("#");
                 baseAndGenus = nameParts[1].split("-");
                 baseName = baseAndGenus[0];
-                baseName = firstLetterToUpper(baseName, true);
+                baseName = providerHelper.firstLetterToUpper(baseName, true);
                 genus = baseAndGenus[1];
+
+                behavior = providerHelper.getBehavior(intervalPattern);
+                extensions = getExtensions(intervalPattern);
+
                 if (genus == "übermäßiger" || genus == "verminderter") {
                     genus = genus.slice(0, -2);
                 }
@@ -92,14 +108,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 if (enharmonicMessage != "") {
                     name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
                 }
-                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " (" + nameParts[3] + ")";
-            }
-
-            if (noteSet.intervals.length > 2) {
-                behavior = providerHelper.getBehavior(intervalPattern);
-                name += " ";
-                name += behavior;
-                extensions = getExtensions(intervalPattern);
+                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " " + nameParts[3];
             }
 
             enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
@@ -111,11 +120,15 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
 
             function getExtensions(pattern) {
                 switch (pattern) {
-                    //dominant 7th chord
+                //half-dominished and dominant 7th chord
                 case "04710":
                 case "0368":
                 case "0359":
                 case "0269":
+                case "03610":
+                case "0379":
+                case "0469":
+                case "0258":
                     return "kleine Septime";
                 //minor 7th chord
                 case "03710":
@@ -123,6 +136,17 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 case "0358":
                 case "0259":
                     return "kleine Septime bzw. große Sexte";
+                case "04711":
+                case "0378":
+                case "0459":
+                case "0158":
+                case "03711":
+                case "0489":
+                case "0458":
+                case "0148":
+                     return "große Septime";
+                case "0369":
+                    return "verminderte Septime";
                 default:
                     return null;
                 }
@@ -175,12 +199,19 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
         return value;
     }
 
-    function firstLetterToUpper(baseName, toUpperCase) {
-        var firstLetter = baseName.charAt(0);
-        if (toUpperCase) {
-            return firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
-        } else {
-            return firstLetter.toLowerCase() + baseName.slice(1, baseName.lastIndex);
+    function getEnharmonicBassToneName(name, bass) {
+        switch (name) {
+            case "E-Dur":
+            case "A-Dur":
+            case "H-Dur":
+            case "Cis-Dur":
+            case "cis-Moll":
+            case "es-Moll":
+            case "Cis-übermäßiger":
+                return providerHelper.changeEnharmonicToneName(bass);
+            default:
+                return bass;
         }
     }
+
 });
