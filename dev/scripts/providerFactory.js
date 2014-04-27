@@ -1,5 +1,5 @@
-define(["providers/functionProvider", "providers/amlProvider"], function (functionProvider, amlProvider) {
-    
+define(["providers/functionProvider", "providers/amlProvider", "providers/pcSetProvider"], function (functionProvider, amlProvider, pcSetProvider) {
+
     return {
         getProviders: function () {
             return [
@@ -17,7 +17,7 @@ define(["providers/functionProvider", "providers/amlProvider"], function (functi
                     key: "pc",
                     getName: function (language) { return "Pitch Class Set"; },
                     getHeader: function (language) { return "PC"; },
-                    getContent: function () { return null; }
+                    getContent: pcSetProvider
                 }, {
                     key: "tf",
                     getName: function (language) { return "Tonfelder"; },
