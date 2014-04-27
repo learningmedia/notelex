@@ -59,6 +59,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 nameParts = name.split("-");
                 switch (name) {
                     case "des-Moll":
+                    case "as-verminderter":
+                    case "des-verminderter":
                     case "Des-übermäßiger":
                     case "Des-Dur":
                         nameParts[0] = providerHelper.changeEnharmonicToneName(nameParts[0]);
@@ -207,6 +209,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             case "Cis-Dur":
             case "cis-Moll":
             case "es-Moll":
+            case "cis-verminderter":
+            case "gis-verminderter":
             case "Cis-übermäßiger":
                 return providerHelper.changeEnharmonicToneName(bass);
             default:

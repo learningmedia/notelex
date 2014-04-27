@@ -237,6 +237,16 @@ define(["calculationHelper"], function (calculationHelper) {
         return [];
     }
 
+    function getPentaName(base, intervals, originalValues) {
+
+        //major 7th chord
+        if (evaluateMidiValues(intervals, [0, 4, 7, 11])) {
+            return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        }
+
+        return [];
+    }
+
     function getIncompletChordNames(base, intervals, originalvalues) {
         var tn2 = getToneName(base + 2, "Dur");
         var tn5 = getToneName(base + 5, "Dur");
@@ -313,7 +323,7 @@ define(["calculationHelper"], function (calculationHelper) {
             case "037":
             case "049":
             case "058":
-                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "cis" || toneToLowerCase === "es") {
+                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "es") {
                     return true;
                 }
                 else {
@@ -427,15 +437,16 @@ define(["calculationHelper"], function (calculationHelper) {
 
     return {
         getToneName: getToneName,
-        getDvToneName:getDvToneName,
+        getDvToneName: getDvToneName,
         getIntervalName: getIntervalName,
         getTriadName: getTriadName,
         getTetradName: getTetradName,
+        getPentaName: getPentaName,
         getIncompletChordNames: getIncompletChordNames,
-        getBehavior:getBehavior,
+        getBehavior: getBehavior,
         evaluateMidiValues: evaluateMidiValues,
         firstLetterToUpper: firstLetterToUpper,
-        changeEnharmonicToneName:changeEnharmonicToneName,
+        changeEnharmonicToneName: changeEnharmonicToneName,
         enharmonic: enharmonic
     };
     
