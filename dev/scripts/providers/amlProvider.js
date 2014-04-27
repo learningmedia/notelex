@@ -61,19 +61,15 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 baseName = nameParts[0];
                 genus = nameParts[1];
 
-                baseName = toUpperFirstLetter(baseName);
+                baseName = firstLetterToUpper(baseName, true);
                 if (genus == "übermäßiger" || genus == "verminderter") {
                     genus = genus.slice(0, -2);
                 }
                 if (name) {
                     bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
                 }
-                enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
-                if (enharmonicMessage != "") {
-                    name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
-                }
                 if (nameParts.length === 2) {
-                    name = nameParts[0] + " " + nameParts[1];
+                    name = nameParts[0] + "-" + nameParts[1];
                 } else {
                     name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2];
                 }
@@ -84,7 +80,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 nameParts = name.split("#");
                 baseAndGenus = nameParts[1].split("-");
                 baseName = baseAndGenus[0];
-                baseName = toUpperFirstLetter(baseName);
+                baseName = firstLetterToUpper(baseName, true);
                 genus = baseAndGenus[1];
                 if (genus == "übermäßiger" || genus == "verminderter") {
                     genus = genus.slice(0, -2);
@@ -104,6 +100,11 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 name += " ";
                 name += behavior;
                 extensions = getExtensions(intervalPattern);
+            }
+
+            enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
+            if (enharmonicMessage != "") {
+                name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
             }
 
             returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
@@ -174,8 +175,12 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
         return value;
     }
 
-    function toUpperFirstLetter(baseName) {
+    function firstLetterToUpper(baseName, toUpperCase) {
         var firstLetter = baseName.charAt(0);
-        return firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
+        if (toUpperCase) {
+            return firstLetter.toUpperCase() + baseName.slice(1, baseName.lastIndex);
+        } else {
+            return firstLetter.toLowerCase() + baseName.slice(1, baseName.lastIndex);
+        }
     }
 });

@@ -173,6 +173,7 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getDiminishedOutPut(noteSet, genus) {
+        debugger;
         var pattern = getOriginalValuesMod12(noteSet);
         switch (pattern) {
             case "0:3:6:":
@@ -229,7 +230,14 @@ define(["calculationHelper"], function (calculationHelper) {
                     "<br/>2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7</sup> D Tg = " +
                     "als E-G-Ais Dominantseptakkord ohne Grundton der Dominante des Gegenklangs der Tonika (verkürzte Doppeldominante des Tonikagegenklangs bzw. der Dominantparallele)</span>";
                 }
-                return "&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) s = in der Notation E-G-B Dominantseptakkord ohne Grundton (Zwischendominante) der Subdominante</span>";
+                return "&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) s = in der Notation E-G-B Dominantseptakkord ohne Grundton (Zwischendominante) der Subdominante</span>"; case "4:7:10:":
+            case "11:2:5:":
+            case "2:5:11:":
+            case "5:2:11:":
+                if (genus == "Dur") {
+                    return "&nbsp;&#92<span style='position: absolut; margin-left:-9px;'>D<sup>7</sup> T = in der Notation H-D-F Dominantseptakkord (ohne Grundton G) der Tonika (verkürzter Dominantseptakkord)</span>";
+                }
+                return "&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) tP = in der Notation Ces-D-F Dominantseptnonakkord (ohne Grundton B und Quinte As) der Parallele der Tonika (verkürzter Dominanteptnonakkord zur Tonikaparallele)</span>";
             case "0:3:6:9:":
                 return "Hallo verminderter Septakkord über C!";
             case "1:4:7:10:":

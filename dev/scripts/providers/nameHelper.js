@@ -153,13 +153,14 @@ define(["providers/providerHelper"], function (providerHelper) {
         console.log("functionNameHelper: getEnharmonicMessage(" + base + ", " + intervalPattern + ")");
 
         switch (intervalPattern) {
+        case "036":
         case "360":
+        case "069":
         case "039":
         case "0379":
             enharmonicMessage = "enharmonische Lesart entscheidend";
             break;
         case "06":
-        case "036":
             enharmonicMessage = providerHelper.enharmonic(intervalPattern, base) ? "enharmonische Lesart entscheidend" : "";
             break;
         case "0369":
@@ -170,26 +171,6 @@ define(["providers/providerHelper"], function (providerHelper) {
             break;
         }
         return enharmonicMessage;
-    }
-
-    function getDvToneName(baseToneName) {
-        switch (baseToneName) {
-            case "Des":
-            case "E":
-            case "G":
-                return "Cis";
-            case "D":
-            case "F":
-            case "H":
-            case "As":
-                return "Gis";
-            case "Es":
-            case "A":
-            case "C":
-                return "Fis";
-            default:
-                return baseToneName;
-        }
     }
 
     return {

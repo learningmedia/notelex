@@ -48,6 +48,40 @@ define(["calculationHelper"], function (calculationHelper) {
         return (genus === "Dur" || genus === "übermäßiger") ? key : key.toLowerCase();
     }
 
+    function getDvToneName(baseToneName) {
+        debugger;
+        switch (baseToneName) {
+            case "Des":
+            case "E":
+            case "G":
+                return "Cis";
+            case "des":
+            case "e":
+            case "g":
+                return "cis";
+            case "D":
+            case "F":
+            case "H":
+            case "As":
+                return "Gis";
+            case "d":
+            case "f":
+            case "h":
+            case "as":
+                return "gis";
+            case "Es":
+            case "A":
+            case "C":
+                return "Fis";
+            case "es":
+            case "a":
+            case "c":
+                return "fis";
+            default:
+                return baseToneName;
+        }
+    }
+
     function getIntervalName(values) {
         //console.log("providerHelper: getEnharmonicMessage({" + values[0] + ", " + values[1] + "})");
         var value = values[1] - values[0];
@@ -108,7 +142,7 @@ define(["calculationHelper"], function (calculationHelper) {
             return [tn9, "verminderter"];
         }
         if (evaluateMidiValues(intervals, [0, 6, 9])) {
-            return [tn9, "verminderter"];
+            return [getToneName(base + 6, "vermindert"), "verminderter"];
         }
         if (evaluateMidiValues(intervals, [0, 4, 8])) {
             return [getToneName(base, "übermäßiger"), "übermäßiger"];
@@ -169,35 +203,35 @@ define(["calculationHelper"], function (calculationHelper) {
         var tn8 = getToneName(base + 8, "Dur");
         
         if (evaluateMidiValues(intervals, [0, 3, 6])) {
-            return [getToneName(tn8, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Grundton " + tn8 + " und mit Terz " + getToneName(base, "Dur") + " im Bass)"];
+            return [getToneName(tn8, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Grundton " + tn8 + " und mit Terz im Bass)"];
         }
         if (evaluateMidiValues(intervals, [0, 3, 9])) {
-            return [tn5, "Dur", "kleiner", "Septakkord", "Dominantseptakkord ohne Grundton " + tn5 + " und mit Quinte " + getToneName(base, "Dur") + " im Bass"];
+            return [tn5, "Dur", "kleiner", "Septakkord", "Dominantseptakkord ohne Grundton " + tn5 + " und mit Quinte im Bass"];
         }
         if (evaluateMidiValues(intervals, [0, 6, 9])) {
-            return [tn2, "Dur", "kleiner", "Septakkord", "Dominantseptakkord ohne Grundton " + tn2 + " und mit Septime " + getToneName(base, "Dur") + " im Bass"];
+            return [tn2, "Dur", "kleiner", "Septakkord", "Dominantseptakkord ohne Grundton " + tn2 + " und mit Septime im Bass"];
         }
         if (evaluateMidiValues(intervals, [0, 4, 10])) {
-            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Quinte " + getToneName(base + 7, "Dur") + ")"];
+            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Quinte)"];
         }
         if (evaluateMidiValues(intervals, [0, 7, 10])) {
-            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz " + getToneName(base + 4, "Dur") + ")"];
+            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz)"];
         }
         if (evaluateMidiValues(intervals, [0, 3, 5])) {
-            return [getToneName(tn5, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz " + getToneName(base + 9, "Dur") + " und mit Quinte " + getToneName(base, "Dur") + " im Bass)"];
+            return [getToneName(tn5, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz und mit Quinte im Bass)"];
         }
         if (evaluateMidiValues(intervals, [0, 2, 9])) {
-            return [getToneName(tn2, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz " + getToneName(base + 6, "Dur") + " und mit Septime " + getToneName(base, "Dur") + " im Bass)"];
+            return [getToneName(tn2, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Terz und mit Septime im Bass)"];
         }
         if (evaluateMidiValues(intervals, [0, 6, 8])) {
-            return [getToneName(tn8, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Quinte " + getToneName(base + 3, "Dur") + " und mit Terz " + getToneName(base, "Dur") + " im Bass)"];
+            return [getToneName(tn8, "Dur"), "Dur", "kleiner", "Septakkord", "(Dominantseptakkord ohne Quinte und mit Terz im Bass)"];
         }
 
         if (evaluateMidiValues(intervals, [0, 10])) {
-            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", " (Dominantseptakkord mit Grundton " + getToneName(base, "Dur") + " ohne Terz und Quinte)"];
+            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", " (Dominantseptakkord mit Grundton und ohne Terz und Quinte)"];
         }
         if (evaluateMidiValues(intervals, [0, 6])) {
-            return [tn8, "Dur", "kleiner", "Septakkord", " (Dominantseptakkord ohne Grundton " + tn8 + ", ohne Quinte " + getToneName(base + 3, "Dur") + " und mit Terz im Bass)"];
+            return [tn8, "Dur", "kleiner", "Septakkord", " (Dominantseptakkord ohne Grundton " + tn8 + ", ohne Quinte und mit Terz im Bass)"];
         }
 
         return [];
@@ -317,6 +351,7 @@ define(["calculationHelper"], function (calculationHelper) {
 
     return {
         getToneName: getToneName,
+        getDvToneName:getDvToneName,
         getIntervalName: getIntervalName,
         getTriadName: getTriadName,
         getTetradName: getTetradName,
