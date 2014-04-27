@@ -3,7 +3,7 @@ define([], function () {
     var listeners = [],
         getCurrentHash = function () {
             var currentHash = window.location.hash;
-            return currentHash ? window.decodeURIComponent(currentHash.slice(1)) : "";
+            return currentHash ? currentHash.slice(1) : "";
         },
         notifyListeners = function () {
             var currentHash = getCurrentHash();
@@ -42,12 +42,12 @@ define([], function () {
         getCurrentHash: getCurrentHash,
         pushHash: function (newHash) {
             var url = window.location,
-                nh = "#" + (newHash ? window.encodeURIComponent(newHash) : "");
+                nh = "#" + (newHash ? newHash : "");
             window.location.href = url.protocol + "//" + url.host + url.pathname + url.search + nh;
         },
         replaceHash: function (newHash) {
             var url = window.location,
-                nh = "#" + (newHash ? window.encodeURIComponent(newHash) : "");
+                nh = "#" + (newHash ? newHash : "");
             window.location.replace(url.protocol + "//" + url.host + url.pathname + url.search + nh);
         }
     };

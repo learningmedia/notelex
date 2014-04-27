@@ -80,43 +80,43 @@ body {
     text-align: center;
 }
 
-#results li.theory-0.selected {
+#results li.theory-am.selected {
     background-color: rgba(70, 130, 180, 0.2);
 }
 
-#results li.theory-0 a.header {
+#results li.theory-am a.header {
     background-color: steelblue;
 }
 
-#results article.theory-0 {
+#results article.theory-am {
     background-color: rgba(70, 130, 180, 0.2);
 }
 
 
 
-#results li.theory-1.selected {
+#results li.theory-ft.selected {
     background-color: rgba(128, 0, 0, 0.2);
 }
 
-#results li.theory-1 a.header {
+#results li.theory-ft a.header {
     background-color: maroon;
 }
 
-#results article.theory-1 {
+#results article.theory-ft {
     background-color: rgba(128, 0, 0, 0.2);
 }
 
 
 
-#results li.theory-2.selected {
+#results li.theory-pc.selected {
     background-color: rgba(255, 140, 0, 0.2);
 }
 
-#results li.theory-2 a.header {
+#results li.theory-pc a.header {
     background-color: darkorange;
 }
 
-#results article.theory-2 {
+#results article.theory-pc {
     background-color: rgba(255, 140, 0, 0.2);
 }
 
