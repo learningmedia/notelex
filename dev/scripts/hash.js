@@ -1,18 +1,17 @@
-define([], function() {
+define([], function () {
 
     var listeners = [],
-        getCurrentHash = function() {
+        getCurrentHash = function () {
             var currentHash = window.location.hash;
             return currentHash ? window.decodeURIComponent(currentHash.slice(1)) : "";
         },
-        notifyListeners = function() {
-            var currentHash = getCurrentHash(),
-                i;
-            for (i = 0; i < listeners.length; i++) {
-                listeners[i](currentHash);
-            }
+        notifyListeners = function () {
+            var currentHash = getCurrentHash();
+            listeners.forEach(function (listener) {
+                listener(currentHash);
+            });
         },
-        observeHashChange = function() {
+        observeHashChange = function () {
             if (window.addEventListener) {
                 window.addEventListener("hashchange", notifyListeners, false);
             } else if (window.attachEvent) {
@@ -24,7 +23,7 @@ define([], function() {
         isListening = false;
 
     return {
-        addListener: function(listener) {
+        addListener: function (listener) {
             if (typeof listener !== "function") {
                 throw new Error("The provided listener must be a function.");
             }
@@ -33,7 +32,7 @@ define([], function() {
                 listener(getCurrentHash());
             }
         },
-        startListening: function() {
+        startListening: function () {
             if (!isListening) {
                 observeHashChange();
                 notifyListeners();
@@ -41,12 +40,12 @@ define([], function() {
             }
         },
         getCurrentHash: getCurrentHash,
-        pushHash: function(newHash) {
+        pushHash: function (newHash) {
             var url = window.location,
                 nh = "#" + (newHash ? window.encodeURIComponent(newHash) : "");
             window.location.href = url.protocol + "//" + url.host + url.pathname + url.search + nh;
         },
-        replaceHash: function(newHash) {
+        replaceHash: function (newHash) {
             var url = window.location,
                 nh = "#" + (newHash ? window.encodeURIComponent(newHash) : "");
             window.location.replace(url.protocol + "//" + url.host + url.pathname + url.search + nh);

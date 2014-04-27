@@ -23,11 +23,6 @@
         <article class="theory-1"></article>
     </div>
 
-    <!-- Templates -->
-    <script id="header-template" type="text/template">
-        <li class="<%= 'theory-' + index + ' ' + (content ? 'enabled' : 'disabled') + ' ' + (selected ? 'selected' : 'unselected') %>"><a class="header" title="<%= name %>" data-index="<%= index %>"><%= header %></a></li>
-    </script>
-    
     <script src="bower_components/requirejs/require.js"></script>
     <script>
         require.config({
@@ -39,7 +34,6 @@
             },
             paths: {
                 "jquery": "../bower_components/jquery/dist/jquery.min",
-                "lodash": "../bower_components/lodash/dist/lodash.min",
                 "jquery.klavier": "jquery.klavier.min",
                 "vex": "vexflow-min"
             }

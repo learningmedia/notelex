@@ -26,24 +26,25 @@ define([], function () {
         return arr.map(function (x) { return mod12(x + offset); });
     }
 
-    function NoteSet(values) {
+    return function (values) {
+        var set = {};
         values = Array.prototype.slice.call(values || [], 0);
 
         if (values.length === 0) {
-            this.base = NaN;
-            this.originalValues = [];
-            this.intervals = [];
+            set.base = NaN;
+            set.originalValues = [];
+            set.intervals = [];
         } else {
-            this.originalValues = values.slice(0);
+            set.originalValues = values.slice(0);
             values = sort(values);
             values = shiftMod12(values);
-            this.base = values[0];
-            values = shiftMod12(values, -this.base);
+            set.base = values[0];
+            values = shiftMod12(values, -set.base);
             values = unique(values);
-            this.intervals = sort(values)
+            set.intervals = sort(values)
         }
-    }
 
-    return NoteSet;
+        return set;
+    };
 
 });

@@ -20,8 +20,7 @@ module.exports = function(config) {
       'test-main.js',
       {pattern: 'tests/**/*Specs.js', included: false},
       {pattern: 'dev/scripts/**/*.js', included: false},
-      {pattern: 'dev/bower_components/jquery/dist/jquery.min.js', included: false},
-      {pattern: 'dev/bower_components/lodash/dist/lodash.min.js', included: false}
+      {pattern: 'dev/bower_components/jquery/dist/jquery.min.js', included: false}
     ],
 
 

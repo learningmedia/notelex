@@ -3,19 +3,19 @@ define(["providers/pcSetTable"], function (pcSetTable) {
     function min(arr) {
         if (arr.length === 0) {
             throw new Error("The array is empty");
-        } else if (arr.length === 1) {
-            return arr[0];
-        } else {
-            return arr.reduce(function (a, b) { return a < b ? a : b; });
         }
+
+        return arr.length === 1
+            ? arr[0]
+            : arr.reduce(function (a, b) { return a < b ? a : b; });
+    }
+
+    function toHex(digit) {
+        return digit.toString(16).toUpperCase();
     }
 
     function lookupPcSet(primeForm) {
-        var setAsString = primeForm
-            .map(function(x) {
-                return x.toString(16).toUpperCase();
-            })
-            .join("");
+        var setAsString = primeForm.map(function (x) { return toHex(x); }).join("");
         return pcSetTable[setAsString] || null;
     }
 
@@ -29,7 +29,7 @@ define(["providers/pcSetTable"], function (pcSetTable) {
     }
 
     function getAllNormalOrders(orderedSet) {
-        var permutations = [orderedSet];
+        var permutations = [orderedSet.slice(0)];
         for (var i = 1; i < orderedSet.length; i++) {
             permutations.push(nextPermutation(permutations[permutations.length - 1]));
         }
@@ -39,24 +39,17 @@ define(["providers/pcSetTable"], function (pcSetTable) {
 
     function createInversion(orderedSet) {
         var biggestValue = orderedSet[orderedSet.length - 1];
-        return orderedSet.slice(0).reverse().map(function(x) {
-            return biggestValue - x;
-        });
+        return orderedSet.slice(0).reverse().map(function (x) { return biggestValue - x; });
     }
 
     function getBestNormalOrder(selection) {
-        var valuesToCompare = [];
-        for (var i = 0; i < selection.length; i++) {
-            valuesToCompare.push(selection[i].map(function(x) {
-                return x < 10 ? "0" + x : "" + x;
-            }).join(","));
-        }
+        var valuesToCompare = selection.map(function (current) {
+            return current.map(function (x) { return x < 10 ? "0" + x : "" + x; }).join(",")
+        });
 
         valuesToCompare.sort();
         var best = valuesToCompare[0];
-        return best.split(",").map(function (x) {
-            return parseInt(x);
-        });
+        return best.split(",").map(function (x) { return parseInt(x); });
     }
 
     return function (noteSet) {
@@ -68,20 +61,14 @@ define(["providers/pcSetTable"], function (pcSetTable) {
         var intervallArr = getAllNormalOrders(noteSet.intervals);
 
         // from all last items in each permutation: the smallest number:
-        var allLastValues = intervallArr.map(function(x) {
-            return x[x.length - 1];
-        });
+        var allLastValues = intervallArr.map(function (x) { return x[x.length - 1]; });
         var minInterval = min(allLastValues);
 
         // all permutations where the last item equals 'minInterval' (= most compact form):
-        var selection = intervallArr.filter(function(x) {
-            return x[x.length - 1] === minInterval;
-        });
+        var selection = intervallArr.filter(function (x) { return x[x.length - 1] === minInterval; });
 
         // all most compact forms and their inversions:
-        var selectionInclInversions = selection.concat(selection.map(function(x) {
-            return createInversion(x);
-        }));
+        var selectionInclInversions = selection.concat(selection.map(createInversion));
 
         // the best one (= smallest intervals at the left side == PRIME FORM):
         var primeForm = getBestNormalOrder(selectionInclInversions);

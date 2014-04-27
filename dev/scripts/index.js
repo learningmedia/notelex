@@ -1,11 +1,11 @@
-﻿define(["jquery", "lodash", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, _, hash, notation, NoteSet, providerFactory) {
+﻿define(["jquery", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, hash, notation, noteSet, providerFactory) {
 
     $(function() {
 
         var theoryProviders = providerFactory.getProviders(),
             currentProvider = 0,
             currentLanguage = "de",
-            currentResults = calculateResults(theoryProviders, currentProvider, new NoteSet(), currentLanguage);
+            currentResults = calculateResults(theoryProviders, currentProvider, noteSet(), currentLanguage);
 
         $("#piano").klavier({
             startKey: 48,
@@ -65,14 +65,15 @@
             $("#piano").klavier("setSelectedValues", keys);
             notation.createNoteRenderer($("#score canvas")[0]).renderKeys(keys);
 
-            currentResults = calculateResults(theoryProviders, currentProvider, new NoteSet(keys), currentLanguage);
+            currentResults = calculateResults(theoryProviders, currentProvider, keys, currentLanguage);
             showHeaders("#theoryHeaders", "#header-template", currentResults, currentLanguage);
             $("#results article").removeClass().addClass("theory-" + currentProvider).addClass(currentResults[currentProvider].content ? "enabled" : "disabled");
             showContent(currentResults);
         }
 
-        function calculateResults(providers, selectedProviderIndex, noteSet, language) {
+        function calculateResults(providers, selectedProviderIndex, keys, language) {
             var results = [],
+                set = noteSet(keys),
                 provider,
                 i;
 
@@ -82,7 +83,7 @@
                     index: i,
                     name: provider.getName(language),
                     header: provider.getHeader(language),
-                    content: provider.getContent(noteSet, language),
+                    content: provider.getContent(set, language),
                     selected: i === selectedProviderIndex
                 });
             }
@@ -90,13 +91,13 @@
         }
 
         function showHeaders(parentElementId, headerTemplateId, results) {
-            var headerContainer = $(parentElementId),
-                headerTemplate = $(headerTemplateId).html(),
-                instantiateHeader = _.template(headerTemplate);
-
+            var headerContainer = $(parentElementId);
             headerContainer.empty();
             results.forEach(function(result) {
-                headerContainer.append(instantiateHeader(result));
+                var link = $("<a></a>").addClass("header").attr("title", result.name).attr("data-index", result.index).text(result.header);
+                var item = $("<li></li>").addClass("theory-" + result.index).addClass(result.content ? "enabled" : "disabled").addClass(result.selected ? "selected" : "unselected");
+                link.appendTo(item);
+                item.appendTo(headerContainer);
             });
         }
 
