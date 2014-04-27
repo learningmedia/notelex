@@ -165,3 +165,25 @@ body {
 .klavier-black-key.klavier-selected-key {
     background-color:  #333333;
 }
+
+
+
+
+/* pcSetProviderResult */
+.pcSetProviderResult table {
+    border-collapse: collapse;
+}
+
+.pcSetProviderResult table th, .pcSetProviderResult table td {
+    padding: 2px 0;
+    text-align: left;
+    vertical-align: top;
+}
+
+.pcSetProviderResult table th {
+    padding-right: 25px;
+}
+
+.pcSetProviderResult .label {
+    font-weight: bold;
+}
