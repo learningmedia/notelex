@@ -31,7 +31,7 @@ define(["providers/providerHelper"], function (providerHelper) {
         return valuesOutput;
     }
 
-    function getSeventhChordName(base, intervals, originalValues) {
+    function getChordName(base, intervals, originalValues) {
 
         var valuesOutput = "";
         var values4 = providerHelper.getTetradName(base, intervals, originalValues);
@@ -176,7 +176,7 @@ define(["providers/providerHelper"], function (providerHelper) {
     return {
         getTriadName: getTriadName,
         getIncompletChordName: getIncompletChordName,
-        getSeventhChordName: getSeventhChordName,
+        getChordName: getChordName,
         getEnharmonicIntervalName: getEnharmonicIntervalName,
         getEnharmonicMessage: getEnharmonicMessage
     }

@@ -158,7 +158,7 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getTetradName(base, intervals, originalValues) {
-
+        debugger;
         //major 7th chord
         if (evaluateMidiValues(intervals, [0, 4, 7, 11])) {
             return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
@@ -234,14 +234,49 @@ define(["calculationHelper"], function (calculationHelper) {
             return [getToneName(base, "verminderter"), "verminderter", "vermindert", "Septakkord", "(ganzverminderter Septakkord)"];
         }
 
-        return [];
-    }
+        //add 2 chord
+        if (evaluateMidiValues(intervals, [0, 2, 4, 7])) {
+            return [getToneName(base, "Dur"), "Dur", "*", "Dreiklang", "mit hinzugefügter Sekunde/None"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 5, 10])) {
+            return [getToneName(base + 10, "Dur"), "Dur", "*", "Dreiklang", "mit hinzugefügter Sekunde/None"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 8, 10])) {
+            return [getToneName(base + 8, "Dur"), "Dur", "*", "Dreiklang", "mit hinzugefügter Sekunde/None und Terz im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 5, 7, 9])) {
+            return [getToneName(base + 5, "Dur"), "Dur", "*", "Dreiklang", "mit hinzugefügter Sekunde/None und Quinte im Bass"];
+        }
 
-    function getPentaName(base, intervals, originalValues) {
+        //add 4 and 9 chord
+        if (evaluateMidiValues(intervals, [0, 2, 5, 7])) {
+            return [getToneName(base + 7, "Dur"), "Dur", "*", "Septakkord", "mit Quartvorhalt (oder " + getToneName(base, "Dur") + "-Dur mit hinzugefügter Quarte und None)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 5, 10])) {
+            return [getToneName(base + 5, "Dur"), "Dur", "*", "Septakkord", "mit Quartvorhalt (oder " + getToneName(base + 10, "Dur") + "-Dur mit hinzugefügter Quarte und None)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 7, 9])) {
+            return [getToneName(base + 2, "Dur"), "Dur", "*", "Septakkord", "mit Quartvorhalt (oder " + getToneName(base + 7, "Dur") + "-Dur mit hinzugefügter Quarte und None)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 5, 7, 10])) {
+            return [getToneName(base, "Dur"), "Dur", "*", "Septakkord", "mit Quartvorhalt (oder " + getToneName(base + 5, "Dur") + "-Dur mit hinzugefügter Quarte und None)"];
+        }
 
-        //major 7th chord
-        if (evaluateMidiValues(intervals, [0, 4, 7, 11])) {
-            return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
+        //major none chord
+        if (evaluateMidiValues(intervals, [0, 2, 4, 7, 11])) {
+            return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "mit großer None"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 7, 8, 10])) {
+            return [getToneName(base + 8, "Dur"), "Dur", "großer", "Septakkord", "mit großer None und Terz im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 4, 5, 7, 9])) {
+            return [getToneName(base + 5, "Dur"), "Dur", "großer", "Septakkord", "mit großer None und Quinte im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 1, 3, 5, 8])) {
+            return [getToneName(base + 1, "Dur"), "Dur", "großer", "Septakkord", "mit großer None und Septime im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 4, 7, 10])) {
+            return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord)"];
         }
 
         return [];
@@ -378,6 +413,10 @@ define(["calculationHelper"], function (calculationHelper) {
             case "04710":
             case "03710":
             case "03610":
+            case "0247":
+            case "0257":
+            case "024711":
+            case "024710":
                 return "Grundakkord (Grundstellung)";
             case "0378":
             case "0368":
@@ -394,6 +433,21 @@ define(["calculationHelper"], function (calculationHelper) {
             case "0259":
             case "0258":
                 return "Sekundakkord (3. Umkehrung)";
+            case "03810":
+            case "03510":
+            case "02510":
+            case "037810":
+            case "036810":
+                return "1. Umkehrung";
+            case "0579":
+            case "0279":
+            case "03579":
+            case "04579":
+                return "2. Umkehrung";
+            case "05710":
+            case "01358":
+            case "02469":
+                return "3. Umkehrung";
             default:
                 return null;
         }
@@ -441,7 +495,6 @@ define(["calculationHelper"], function (calculationHelper) {
         getIntervalName: getIntervalName,
         getTriadName: getTriadName,
         getTetradName: getTetradName,
-        getPentaName: getPentaName,
         getIncompletChordNames: getIncompletChordNames,
         getBehavior: getBehavior,
         evaluateMidiValues: evaluateMidiValues,

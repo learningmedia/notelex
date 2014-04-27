@@ -38,7 +38,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             }
 
             if (noteSet.intervals.length === 4) {
-                name = nameHelper.getSeventhChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
+                name = nameHelper.getChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("#");
                 chord = nameParts[1];
                 chordParts = chord.split("-");
