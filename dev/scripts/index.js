@@ -1,6 +1,6 @@
 ﻿define(["jquery", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, hash, notation, noteSet, providerFactory) {
 
-    $(function() {
+    $(function () {
 
         var theoryProviders = providerFactory.getProviders(),
             currentProvider = 0,
@@ -11,57 +11,67 @@
             startKey: 48,
             endKey: 72,
             selectionMode: "multiple",
-            onSelectedValuesChanged: onSelectionChanged
+            onSelectedValuesChanged: replaceHash
         });
 
-        $("#languagePicker input:radio").on("click", function() {
+        $("#languagePicker input:radio").on("click", function () {
             currentLanguage = $("#languagePicker input:checked").val();
             refresh();
         });
 
-        $("#theoryHeaders").on("click", ".header", function(ev) {
-            var $element = $(ev.target);
-            var newIndex = +$element.attr("data-index");
+        $("#theoryHeaders").on("click", ".header", function (ev) {
+            var $element = $(ev.target),
+                newIndex = parseInt($element.attr("data-index"), 10);
             currentProvider = newIndex;
-            refresh();
+            replaceHash();
         });
 
-        hash.addListener(onHashChanged);
+        hash.addListener(refresh);
         hash.startListening();
 
-        function onSelectionChanged() {
+        function replaceHash() {
             var keys = $("#piano").klavier("getSelectedValues");
-            hash.replaceHash(createHashFromKeys(keys));
+            hash.replaceHash(createHash(keys, currentProvider));
         }
 
-        function onHashChanged() {
-            refresh();
+        function createHash(keys, provider) {
+            var keyStr = keys.reduce(function (accu, current) {
+                return accu + (current < 10 ? "0" + current : current);
+            }, "");
+            return "k=" + keyStr + "&p=" + provider;
         }
 
-        function createHashFromKeys(keys) {
-            var key = "",
+        function parseHash(hash) {
+            var query = getQuery(hash),
+                keys = [],
+                keyStr,
                 i;
-            for (i = 0; i < keys.length; i++) {
-                key = key + (keys[i] < 10 ? "0" + keys[i] : "" + keys[i]);
+            query.p = query.p || 0;
+            query.k = query.k || "";
+            for (i = 0; i < query.k.length; i += 2) {
+                keyStr = query.k.substring(i, i + 2);
+                keys.push(parseInt(keyStr, 10));
             }
-            return key;
+            return {
+                keys: keys,
+                provider: query.p
+            };
         }
 
-        function createKeysFromHash(hash) {
-            var keys = [],
-                i;
-            if (!hash) {
-                hash = "";
-            }
-            for (i = 0; i < hash.length; i += 2) {
-                var keyStr = hash.substring(i, i + 2);
-                keys.push(+keyStr);
-            }
-            return keys;
+        function getQuery(hash) {
+            return (hash + "").split("&").reduce(function (accu, pair) {
+                var tokens = pair.split("=");
+                if (tokens.length === 2) {
+                    accu[tokens[0]] = tokens[1];
+                }
+                return accu;
+            }, Object.create(null));
         }
 
         function refresh() {
-            var keys = createKeysFromHash(hash.getCurrentHash());
+            var decoded = parseHash(hash.getCurrentHash()),
+                keys = decoded.keys;
+            currentProvider = decoded.provider;
             $("#piano").klavier("setSelectedValues", keys);
             notation.createNoteRenderer($("#score canvas")[0]).renderKeys(keys);
 
@@ -77,7 +87,7 @@
                 provider,
                 i;
 
-            for (i = 0; i < providers.length; i++) {
+            for (i = 0; i < providers.length; i += 1) {
                 provider = providers[i];
                 results.push({
                     index: i,
@@ -93,7 +103,7 @@
         function showHeaders(parentElementId, headerTemplateId, results) {
             var headerContainer = $(parentElementId);
             headerContainer.empty();
-            results.forEach(function(result) {
+            results.forEach(function (result) {
                 var link = $("<a></a>").addClass("header").attr("title", result.name).attr("data-index", result.index).text(result.header);
                 var item = $("<li></li>").addClass("theory-" + result.index).addClass(result.content ? "enabled" : "disabled").addClass(result.selected ? "selected" : "unselected");
                 link.appendTo(item);
@@ -102,7 +112,8 @@
         }
 
         function showContent(results) {
-            for (var i = 0; i < results.length; i++) {
+            var i;
+            for (i = 0; i < results.length; i += 1) {
                 if (results[i].selected) {
                     $("#results > article").html(results[i].content || "<div></div>");
                 }
