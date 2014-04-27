@@ -67,25 +67,27 @@
 
         function refresh() {
             var decoded = parseHash(hash.getCurrentHash()),
-                currentResults;
+                currentResults,
+                selectedResult;
             currentProvider = decoded.provider;
             $("#piano").klavier("setSelectedValues", decoded.keys);
             notation.createNoteRenderer($("#score canvas")[0]).renderKeys(decoded.keys);
             currentResults = calculateResults(theoryProviders, currentProvider, decoded.keys, currentLanguage);
+            selectedResult = currentResults.filter(function (result) { return result.selected; })[0];
             showHeaders("#theoryHeaders", "#header-template", currentResults, currentLanguage);
-            $("#results article").removeClass().addClass("theory-" + currentProvider).addClass(currentResults[currentProvider].content ? "enabled" : "disabled");
+            $("#results article").removeClass().addClass("theory-" + currentProvider).addClass(selectedResult.content ? "enabled" : "disabled");
             showContent(currentResults);
         }
 
         function calculateResults(providers, selectedProvider, keys, language) {
             var set = noteSet(keys);
             return providers.map(function (provider) {
-                var isSelected = provider.key.toUpperCase() == selectedProvider.toUpperCase();
+                var isSelected = provider.key.toUpperCase() === selectedProvider.toUpperCase();
                 return {
                     key: provider.key,
                     name: provider.getName(language),
                     header: provider.getHeader(language),
-                    content: isSelected ? provider.getContent(set, language) : null,
+                    content: provider.getContent(set, language),
                     selected: isSelected
                 };
             });
