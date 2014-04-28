@@ -34,7 +34,7 @@ define(["providers/providerHelper"], function (providerHelper) {
     function getChordName(base, intervals, originalValues) {
 
         var valuesOutput = "";
-        var values4 = providerHelper.getTetradName(base, intervals, originalValues);
+        var values4 = providerHelper.getChordName(base, intervals, originalValues);
 
         if (values4.length !== 0) {
             valuesOutput = values4[2] + "#" + values4[0] + "-" + values4[1] + "#" + values4[3] + "#" + values4[4];

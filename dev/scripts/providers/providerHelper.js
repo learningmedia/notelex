@@ -157,8 +157,8 @@ define(["calculationHelper"], function (calculationHelper) {
         return [];
     }
 
-    function getTetradName(base, intervals, originalValues) {
-        debugger;
+    function getChordName(base, intervals, originalValues) {
+
         //major 7th chord
         if (evaluateMidiValues(intervals, [0, 4, 7, 11])) {
             return [getToneName(base, "Dur"), "Dur", "großer", "Septakkord", "(major seven)"];
@@ -277,6 +277,18 @@ define(["calculationHelper"], function (calculationHelper) {
         }
         if (evaluateMidiValues(intervals, [0, 2, 4, 7, 10])) {
             return [getToneName(base, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord)"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 6, 8, 10])) {
+            return [getToneName(base + 8, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord) und Terz im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 3, 5, 7, 9])) {
+            return [getToneName(base + 5, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord) und Quinte im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 4, 6, 9])) {
+            return [getToneName(base + 2, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord) und Septime im Bass"];
+        }
+        if (evaluateMidiValues(intervals, [0, 2, 5, 8, 10])) {
+            return [getToneName(base + 10, "Dur"), "Dur", "kleiner", "Septakkord", "mit großer None (Dominantseptnonakkord) im Bass"];
         }
 
         return [];
@@ -494,7 +506,7 @@ define(["calculationHelper"], function (calculationHelper) {
         getDvToneName: getDvToneName,
         getIntervalName: getIntervalName,
         getTriadName: getTriadName,
-        getTetradName: getTetradName,
+        getChordName: getChordName,
         getIncompletChordNames: getIncompletChordNames,
         getBehavior: getBehavior,
         evaluateMidiValues: evaluateMidiValues,

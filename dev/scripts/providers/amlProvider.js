@@ -14,7 +14,8 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             intervalPattern,
             intervalName,
             enharmonicMessage,
-            extensions;
+            extensions,
+            writeExtensions = true;
 
         if (!isNaN(noteSet.base)) {
 
@@ -77,7 +78,6 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                     genus = genus.slice(0, -2);
                 }
                 if (name) {
-                    debugger;
                     bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
                     bass = getEnharmonicBassToneName(name, bass);
                 }
@@ -92,40 +92,46 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
 
                 name = nameHelper.getChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("#");
-                baseAndGenus = nameParts[1].split("-");
-                baseName = baseAndGenus[0];
-                baseName = providerHelper.firstLetterToUpper(baseName, true);
-                genus = baseAndGenus[1];
-               
-                behavior = providerHelper.getBehavior(intervalPattern);
-                extensions = getExtensions(intervalPattern);
+                if (nameParts.length === 1) {
+                    returnValue = null;
+                    writeExtensions = false;
+                } else {
+                    baseAndGenus = nameParts[1].split("-");
+                    baseName = baseAndGenus[0];
+                    baseName = providerHelper.firstLetterToUpper(baseName, true);
+                    genus = baseAndGenus[1];
 
-                if (genus == "übermäßiger" || genus == "verminderter") {
-                    genus = genus.slice(0, -2);
+                    behavior = providerHelper.getBehavior(intervalPattern);
+                    extensions = getExtensions(intervalPattern);
+
+                    if (genus == "übermäßiger" || genus == "verminderter") {
+                        genus = genus.slice(0, -2);
+                    }
+                    if (name) {
+                        bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
+                    }
+
+                    name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " " + nameParts[3];
+
+                    enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
+                    if (enharmonicMessage != "") {
+                        name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
+                    }
+
+                    var asterix = name.indexOf("*");
+                    if (asterix !== -1) {
+                        name = name.slice(asterix + 1, name.length);
+                    }
                 }
-                if (name) {
-                    bass = providerHelper.getToneName(noteSet.originalValues[0], "Dur");
-                }
+            }
 
-                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " " + nameParts[3];
-
+            if (writeExtensions) {
                 enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
                 if (enharmonicMessage != "") {
                     name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
                 }
-
-                var asterix = name.indexOf("*");
-                if (asterix !== -1) {
-                    name = name.slice(asterix + 1, name.length);
-                }
+                returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
             }
-
-            enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
-            if (enharmonicMessage != "") {
-                name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
-            }
-
-            returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
         }
 
         return language === "de" ? returnValue : null;
@@ -218,6 +224,10 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             case "01358":
                 return "große Septime und große None";
             case "024710":
+            case "036810":
+            case "03579":
+            case "02469":
+            case "025810":
                 return "kleine Septime und große None";
             default:
                 return null;

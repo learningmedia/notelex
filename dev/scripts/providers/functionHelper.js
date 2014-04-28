@@ -8,25 +8,30 @@ define(["calculationHelper"], function (calculationHelper) {
         case "C-Dur":
             if (intervalPattern === "057") {
                 return "1.) T<sup>4</sup> = Tonika mit Quartvorhalt<br/>2.) (D<sup>4</sup>) S = Dominante (Zwischendominante) mit Quartvorhalt der Subdominante";
-            } else if (isD7) {
+            }
+            if (isD7) {
                 return "1.) (D<sup>7</sup>) S = Dominantseptakkord (Zwischendominante) der Subdominante" +
                     "<br/>2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>5></sub> D) Tg = " +
                     "übermäßiger Quintsextakkord (C-E-G-Ais) als Doppeldominante des Tonikagegenklangs (bzw. der Dominantparallele).</span>";
-            } else {
-                return "1.) T = Tonika<br/>2.) (D) S = Dominante (Zwischendominante) der Subdominante";
             }
+            if (intervalPattern == "04711" || intervalPattern == "024711") {
+                return "T = Tonika";
+            }
+            return "1.) T = Tonika<br/>2.) (D) S = Dominante (Zwischendominante) der Subdominante";
+        case "C-übermäßiger":
+            return "(D<sup>5<</sup>) S = Dominante (Zwischendominante) der Subdominante mit hochalterierter Quinte";
         case "c-Moll":
             return "t = Moll-Tonika (in Dur)";
         case "Des-Dur":
             if (intervalPattern === "038") {
                 return "S<sup>N</sup> = neapolitanische Sextakkord (oder auch nur: Neapolitaner)";
-            } else if (isD7) {
+            }
+            if (isD7) {
                 return "1.) (D<span style='position:absolut; margin-left:-6px;'><sub>D</sub><span><sup>6<</sup>) S = übermäßiger Quintsextakkord als Signalakkord (Sub- bzw. Doppeldominante) der Subdominante" +
                     "<br/>2.)&nbsp;&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>5></sub> D S = " +
                     "übermäßiger Quintsextakkord (Des-F-As-H) als Doppeldominante der Subdominante.</span>";
-            } else {
-                return "N = selbständiger Neapolitaner (als Grundakkord)";
             }
+            return "N = selbständiger Neapolitaner (als Grundakkord)";
         case "D-Dur":
             if (isD7) {
                 if (intervalPattern === "036") {
@@ -56,11 +61,11 @@ define(["calculationHelper"], function (calculationHelper) {
         case "F-Dur":
             if (intervalPattern === "067") {
                 return "S<sup>4</sup> = Subdominante mit (übermäßigem) Quartvorhalt";
-            } else if (isD7) {
-                return "(D<sup>7</sup>) S<span style='position:absolut; margin-left:-6px;'><sub>S</sub></span> = Dominante der Doppelsubdominante (Zwischendominante zur Doppelsubdominante)";
-            } else {
-                return "S = Subdominante";
             }
+            if (isD7) {
+                return "(D<sup>7</sup>) S<span style='position:absolut; margin-left:-6px;'><sub>S</sub></span> = Dominante der Doppelsubdominante (Zwischendominante zur Doppelsubdominante)";
+            }
+            return "S = Subdominante";
         case "f-Moll":
             return "s = Moll-Subdominante (in Dur)";
         case "Fis-Dur":
@@ -68,9 +73,8 @@ define(["calculationHelper"], function (calculationHelper) {
         case "G-Dur":
             if (intervalPattern === "057") {
                 return "D<sup>4</sup> = Dominante mit Quartvorhalt";
-            } else {
-                return "D = Dominante";
-            }
+            } 
+            return "D = Dominante";
         case "g-Moll":
             return "(s D) S = Subdominantparallele bzw. S<sub>6</sub> (mit Sexte im Bass) der Subdominante (Zwischensubdominantparallele zur Subdominante)";
         case "As-Dur":
@@ -104,14 +108,17 @@ define(["calculationHelper"], function (calculationHelper) {
         case "C-Dur":
             if (intervalPattern === "057") {
                 return "1.) T<sup>4</sup> = gleichnamige Durtonart mit Quartvorhalt<br/>2.) (D<sup>4</sup>) s = Dominante mit Quartvorhalt der Subdominante (Zwischendominante der Subdominante)";
-            } else if (isD7) {
+            }
+            if (isD7) {
                 if (intervalPattern === "036") {
                     return "&#92<span style='position: absolut; margin-left:-14px;'>(D<sup>7</sup>) s = Dominantseptakkord ohne Grundton der Subdominante (Zwischendominante zur Subdominante)</span>";
                 }
                 return "(D<sup>7</sup>) s = Dominantseptakkord der Subdominante (Zwischendominante zur Subdominante)";
-            } else {
+            }
+            if (intervalPattern == "047") {
                 return "1.) T = gleichnamige Durtonart</br>2.) (D) s = Dominante der Subdominante (Zwischendominante zur Subdominante)";
             }
+            return "nicht gebräuchlich";
         case "Des-Dur":
             if (intervalPattern === "038") {
                 return "S<sup>N</sup> = neapolitanische Sextakkord (oder auch nur: Neapolitaner)";
@@ -250,6 +257,7 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function d7Value(intervalPattern) {
+        debugger;
         if (intervalPattern === "04710" || intervalPattern === "0410" || intervalPattern === "0710" || intervalPattern === "010") {
             return true;
         } else {
