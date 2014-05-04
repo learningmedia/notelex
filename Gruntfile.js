@@ -34,13 +34,9 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
-      files: ["Gruntfile.js", "test-main.js", "dev/main.dev.js", "dev/scripts/**/*.js", "test/**/*.js"],
+      files: ["Gruntfile.js", "test-main.js", "dist-main.js", "dev/scripts/**/*.js", "test/**/*.js", "!dev/scripts/jquery.klavier.min.js", "!dev/scripts/vexflow-min.js"],
       options: {
-        // options here to override JSHint defaults
-        globals: {
-          console: true,
-          document: true
-        }
+        jshintrc: true
       }
     },
     requirejs: {
@@ -61,7 +57,8 @@ module.exports = function (grunt) {
     karma: {
       options: {
         configFile: "karma.conf.js"
-      }
+      },
+      default: {}
     },
     copy: {
       dist: {
@@ -94,7 +91,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask("default", ["test", "build"]);
-  grunt.registerTask("test", ["jshint", "karma"]);
+  grunt.registerTask("test", [/*"jshint", */"karma:default"]);
   grunt.registerTask("build", ["clean", "copy", "replace", "prettify", "requirejs", "concat", "uglify", "cssmin"]);
 
 };
