@@ -108,7 +108,7 @@
             var i;
             for (i = 0; i < results.length; i += 1) {
                 if (results[i].selected) {
-                    $("#results > article").html(results[i].content || "<div></div>");
+                    $("#theoryContent").html(results[i].content || "<div></div>");
                 }
             }
         }
