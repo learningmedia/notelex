@@ -1,4 +1,4 @@
-define(["providers/functionProvider", "providers/pcSetProvider"], function (functionProvider, pcSetProvider) {
+define(["providers/functionProvider", "providers/pcSetProvider", "providers/toneFieldProvider"], function (functionProvider, pcSetProvider, toneFieldProvider) {
     
     return {
         getProviders: function () {
@@ -22,7 +22,7 @@ define(["providers/functionProvider", "providers/pcSetProvider"], function (func
                     key: "tf",
                     getName: function (language) { return "Tonfelder"; },
                     getHeader: function (language) { return "TF"; },
-                    getContent: function () { return null; }
+                    getContent: toneFieldProvider
                 }
             ];
         }
