@@ -51,22 +51,22 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             
             /* Flag for special cases of function theory */
             switch (intervalPattern) {
-            case "036":
-            case "039":
-            case "069":
-                chord = "dmc"; //diminished seven
-                break;
-            case "0369":
-                chord = "dmc"; //diminished seven
-                break;
-            case "0479":
-                chord = "sad"; //sixte ajoutée in major mode
-                break;
-            case "0379":
-                chord = "sam"; //sixte ajoutée in minor mode
-                break;
-            default:
-                break;
+                case "036":
+                case "039":
+                case "069":
+                    chord = "dmc"; //diminished seven
+                    break;
+                case "0369":
+                    chord = "dmc"; //diminished seven
+                    break;
+                case "0479":
+                    chord = "sad"; //sixte ajoutée in major mode
+                    break;
+                case "0379":
+                    chord = "sam"; //sixte ajoutée in minor mode
+                    break;
+                default:
+                    break;
             }
 
             /* Get function-theory output (major and minor mode) */

@@ -486,28 +486,28 @@ define(["calculationHelper"], function (calculationHelper) {
 
     function changeEnharmonicToneName(baseName) {
         switch (baseName) {
-        case "Des":
-            return "Cis";
-        case "des":
-            return "cis";
-        case "Es":
-            return "Dis";
-        case "es":
-            return "dis";
-        case "Fis":
-            return "Ges";
-        case "fis":
-            return "ges";
-        case "As":
-            return "Gis";
-        case "as":
-            return "gis";
-        case "B":
-            return "Ais";
-        case "b":
-            return "ais";
-        default:
-            return baseName;
+            case "Des":
+                return "Cis";
+            case "des":
+                return "cis";
+            case "Es":
+                return "Dis";
+            case "es":
+                return "dis";
+            case "Fis":
+                return "Ges";
+            case "fis":
+                return "ges";
+            case "As":
+                return "Gis";
+            case "as":
+                return "gis";
+            case "B":
+                return "Ais";
+            case "b":
+                return "ais";
+            default:
+                return baseName;
         }
     }
 
