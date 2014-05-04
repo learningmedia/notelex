@@ -113,11 +113,6 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
 
                     name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " " + nameParts[3];
 
-                    enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
-                    if (enharmonicMessage != "") {
-                        name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
-                    }
-
                     var asterix = name.indexOf("*");
                     if (asterix !== -1) {
                         name = name.slice(asterix + 1, name.length);

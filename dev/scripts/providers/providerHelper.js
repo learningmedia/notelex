@@ -396,6 +396,16 @@ define(["calculationHelper"], function (calculationHelper) {
                 else{
                     return false;
                 }
+            case "04711":
+            case "0378":
+            case "0459":
+            case "0158":
+                if (toneToLowerCase === "des" || toneToLowerCase === "e" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h") {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             default:
                 return false;
         }
