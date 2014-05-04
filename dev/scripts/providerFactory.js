@@ -1,5 +1,5 @@
-define(["providers/functionProvider", "providers/amlProvider", "providers/pcSetProvider"], function (functionProvider, amlProvider, pcSetProvider) {
-
+define(["providers/amlProvider", "providers/functionProvider", "providers/pcSetProvider", "providers/toneFieldProvider"], function (amlProvider, functionProvider, pcSetProvider, toneFieldProvider) {
+    
     return {
         getProviders: function () {
             return [
@@ -22,7 +22,7 @@ define(["providers/functionProvider", "providers/amlProvider", "providers/pcSetP
                     key: "tf",
                     getName: function (language) { return "Tonfelder"; },
                     getHeader: function (language) { return "TF"; },
-                    getContent: function () { return null; }
+                    getContent: toneFieldProvider
                 }
             ];
         }
