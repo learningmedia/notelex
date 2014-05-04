@@ -73,15 +73,19 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             majorFunctions = functionHelper.getMajorFunctions(chord, intervalPattern, noteSet);
             minorFunctions = functionHelper.getMinorFunctions(chord, intervalPattern, noteSet);
 
-            /* Connect output parts */
-            if (name == "") {
+            name = providerHelper.removeAsterix(name);
+
+            if (noteSet.intervals.length < 3) {
                 returnValue = null;
-            } else {
+            }
+            else {
+                /* Connect output parts */
                 returnValue = getNameObject(name, enharmonicMessage);
                 returnValue += getFunctionObject(chord, majorFunctions, minorFunctions);
+                returnValue = providerHelper.getWorkInProgressOutput(name, returnValue);
             }
         }
-
+        
         return language === "de" ? returnValue : null;
     };
 

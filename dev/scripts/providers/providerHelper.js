@@ -511,6 +511,29 @@ define(["calculationHelper"], function (calculationHelper) {
         }
     }
 
+    function getWorkInProgressOutput(name, returnValue) {
+        if (!returnValue) {
+            return returnValue;
+        }
+        var udf = returnValue.indexOf("undefined");
+        var nl = returnValue.indexOf("null");
+        if (udf !== -1 || nl !== -1 || name == "") {
+            returnValue = null;
+        }
+        return returnValue;
+    }
+
+    function removeAsterix(name) {
+        if (!name) {
+            return name;
+        }
+        var asterix = name.indexOf("*");
+        if (asterix !== -1) {
+            name = name.slice(asterix + 1, name.length).trim();
+        }
+        return name;
+    }
+
     return {
         getToneName: getToneName,
         getDvToneName: getDvToneName,
@@ -522,7 +545,9 @@ define(["calculationHelper"], function (calculationHelper) {
         evaluateMidiValues: evaluateMidiValues,
         firstLetterToUpper: firstLetterToUpper,
         changeEnharmonicToneName: changeEnharmonicToneName,
-        enharmonic: enharmonic
+        enharmonic: enharmonic,
+        getWorkInProgressOutput: getWorkInProgressOutput,
+        removeAsterix: removeAsterix
     };
     
 });

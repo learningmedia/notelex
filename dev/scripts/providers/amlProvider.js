@@ -19,8 +19,6 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
 
         if (!isNaN(noteSet.base)) {
 
-            /* Get name parts (base, genus, ...) */
-
             intervalNumber = noteSet.intervals.length;
             intervalPattern = noteSet.intervals.join("");
             baseName = providerHelper.getToneName(noteSet.base, "Dur");
@@ -112,13 +110,10 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                     }
 
                     name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " " + nameParts[3];
-
-                    var asterix = name.indexOf("*");
-                    if (asterix !== -1) {
-                        name = name.slice(asterix + 1, name.length);
-                    }
                 }
             }
+
+            name = providerHelper.removeAsterix(name);
 
             if (writeExtensions) {
                 enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
@@ -129,7 +124,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             }
         }
 
-        return language === "de" ? returnValue : null;
+        return language === "de" ? providerHelper.getWorkInProgressOutput(name, returnValue) : null;
     };
 
     function getAmlObject(intervalNumber, name, base, genus, bass, behavior, intervalName, extensions) {

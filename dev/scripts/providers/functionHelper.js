@@ -180,7 +180,7 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getDiminishedOutPut(noteSet, genus) {
-        debugger;
+
         var pattern = getOriginalValuesMod12(noteSet);
         switch (pattern) {
             case "0:3:6:":
@@ -257,7 +257,7 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function d7Value(intervalPattern) {
-        debugger;
+
         if (intervalPattern === "04710" || intervalPattern === "0410" || intervalPattern === "0710" || intervalPattern === "010") {
             return true;
         } else {
