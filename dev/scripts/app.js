@@ -1,30 +1,10 @@
-﻿define(["jquery", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, hash, notation, noteSet, providerFactory) {
+define(["jquery", "hash", "notation", "noteSet", "providerFactory", "jquery.klavier"], function ($, hash, notation, noteSet, providerFactory) {
 
     $(function () {
 
         var theoryProviders = providerFactory.getProviders(),
             currentProvider = theoryProviders[0].key,
             currentLanguage = "de";
-
-        $("#piano").klavier({
-            startKey: 48,
-            endKey: 72,
-            selectionMode: "multiple",
-            onSelectedValuesChanged: changeContent
-        });
-
-        $("#languagePicker input:radio").on("click", function () {
-            currentLanguage = $("#languagePicker input:checked").val();
-            refresh();
-        });
-
-        $("#theoryHeaders").on("click", ".header", function (ev) {
-            currentProvider = $(ev.target).attr("data-provider");
-            changeContent();
-        });
-
-        hash.addListener(refresh);
-        hash.startListening();
 
         function changeContent() {
             var keys = $("#piano").klavier("getSelectedValues");
@@ -113,6 +93,25 @@
             }
         }
 
+        $("#piano").klavier({
+            startKey: 48,
+            endKey: 72,
+            selectionMode: "multiple",
+            onSelectedValuesChanged: changeContent
+        });
+
+        $("#languagePicker input:radio").on("click", function () {
+            currentLanguage = $("#languagePicker input:checked").val();
+            refresh();
+        });
+
+        $("#theoryHeaders").on("click", ".header", function (ev) {
+            currentProvider = $(ev.target).attr("data-provider");
+            changeContent();
+        });
+
+        hash.addListener(refresh);
+        hash.startListening();
     });
 
 });

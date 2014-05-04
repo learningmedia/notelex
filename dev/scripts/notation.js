@@ -52,9 +52,9 @@ define(["vex"], function (Vex) {
 
             for (i = 0; i < keys.length; i++) {
                 key = keys[i];
-                mod = key % 12,
-                noteName = noteNames[mod],
-                octave = (key - mod) / 12,
+                mod = key % 12;
+                noteName = noteNames[mod];
+                octave = (key - mod) / 12;
                 staveNote = { noteName: noteName, octave: octave, accidental: null };
 
                 if (noteName.length === 2) {
@@ -98,9 +98,9 @@ define(["vex"], function (Vex) {
 
                 // Create a voice
                 var voice = new vexFlow.Voice({
-                    num_beats: notes.length,
-                    beat_value: 1,
-                    resolution: vexFlow.RESOLUTION
+                    "num_beats": notes.length,
+                    "beat_value": 1,
+                    "resolution": vexFlow.RESOLUTION
                 });
 
                 // Add notes to voice

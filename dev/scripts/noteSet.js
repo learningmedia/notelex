@@ -17,7 +17,7 @@ define([], function () {
 
     function sort(arr) {
         var returnValue = arr.slice(0);
-        returnValue.sort(function (a, b) { return a - b });
+        returnValue.sort(function (a, b) { return a - b; });
         return returnValue;
     }
 
@@ -41,7 +41,7 @@ define([], function () {
             set.base = values[0];
             values = shiftMod12(values, -set.base);
             values = unique(values);
-            set.intervals = sort(values)
+            set.intervals = sort(values);
         }
 
         return set;

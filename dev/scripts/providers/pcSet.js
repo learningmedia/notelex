@@ -44,7 +44,7 @@ define(["providers/pcSetTable"], function (pcSetTable) {
 
     function getBestNormalOrder(selection) {
         var valuesToCompare = selection.map(function (current) {
-            return current.map(function (x) { return x < 10 ? "0" + x : "" + x; }).join(",")
+            return current.map(function (x) { return x < 10 ? "0" + x : "" + x; }).join(",");
         });
 
         valuesToCompare.sort();
@@ -55,7 +55,7 @@ define(["providers/pcSetTable"], function (pcSetTable) {
     return function (noteSet) {
         if (noteSet.intervals.length === 0) {
             return pcSetTable[""];
-        };
+        }
 
         // get all permutations of the input array:
         var intervallArr = getAllNormalOrders(noteSet.intervals);
