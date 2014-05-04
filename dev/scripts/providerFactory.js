@@ -1,4 +1,4 @@
-define(["providers/functionProvider", "providers/pcSetProvider", "providers/toneFieldProvider"], function (functionProvider, pcSetProvider, toneFieldProvider) {
+define(["providers/amlProvider", "providers/functionProvider", "providers/pcSetProvider", "providers/toneFieldProvider"], function (amlProvider, functionProvider, pcSetProvider, toneFieldProvider) {
     
     return {
         getProviders: function () {
@@ -7,7 +7,7 @@ define(["providers/functionProvider", "providers/pcSetProvider", "providers/tone
                     key: "am",
                     getName: function (language) { return "Allgemeine Musiklehre"; },
                     getHeader: function (language) { return "AM"; },
-                    getContent: function () { return null; }
+                    getContent: amlProvider
                 }, {
                     key: "ft",
                     getName: function (language) { return "Funktionstheorie"; },
