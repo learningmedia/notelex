@@ -1,4 +1,4 @@
-define(["providers/functionProvider", "providers/pcSetProvider"], function (functionProvider, pcSetProvider) {
+define(["providers/amlProvider", "providers/functionProvider", "providers/pcSetProvider", "providers/toneFieldProvider"], function (amlProvider, functionProvider, pcSetProvider, toneFieldProvider) {
     
     return {
         getProviders: function () {
@@ -7,7 +7,7 @@ define(["providers/functionProvider", "providers/pcSetProvider"], function (func
                     key: "am",
                     getName: function (language) { return "Allgemeine Musiklehre"; },
                     getHeader: function (language) { return "AM"; },
-                    getContent: function () { return null; }
+                    getContent: amlProvider
                 }, {
                     key: "ft",
                     getName: function (language) { return "Funktionstheorie"; },
@@ -22,7 +22,7 @@ define(["providers/functionProvider", "providers/pcSetProvider"], function (func
                     key: "tf",
                     getName: function (language) { return "Tonfelder"; },
                     getHeader: function (language) { return "TF"; },
-                    getContent: function () { return null; }
+                    getContent: toneFieldProvider
                 }
             ];
         }

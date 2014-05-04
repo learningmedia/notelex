@@ -80,44 +80,42 @@ body {
     text-align: center;
 }
 
-#results li.theory-am.selected {
+#results li.theory-am.selected, #results article.theory-am {
     background-color: rgba(70, 130, 180, 0.2);
 }
 
 #results li.theory-am a.header {
-    background-color: steelblue;
-}
-
-#results article.theory-am {
-    background-color: rgba(70, 130, 180, 0.2);
+    background-color: rgba(70, 130, 180, 1);
 }
 
 
 
-#results li.theory-ft.selected {
+#results li.theory-ft.selected, #results article.theory-ft {
     background-color: rgba(128, 0, 0, 0.2);
 }
 
 #results li.theory-ft a.header {
-    background-color: maroon;
-}
-
-#results article.theory-ft {
-    background-color: rgba(128, 0, 0, 0.2);
+    background-color: rgba(128, 0, 0, 1);
 }
 
 
 
-#results li.theory-pc.selected {
+#results li.theory-pc.selected, #results article.theory-pc {
     background-color: rgba(255, 140, 0, 0.2);
 }
 
 #results li.theory-pc a.header {
-    background-color: darkorange;
+    background-color: rgba(255, 140, 0, 1);
 }
 
-#results article.theory-pc {
-    background-color: rgba(255, 140, 0, 0.2);
+
+
+#results li.theory-tf.selected, #results article.theory-tf {
+    background-color: rgba(25, 120, 30, 0.2);
+}
+
+#results li.theory-tf a.header {
+    background-color: rgba(25, 120, 30, 1);
 }
 
 
@@ -163,7 +161,7 @@ body {
     background-color:  #CCCCCC;
 }
 .klavier-black-key.klavier-selected-key {
-    background-color:  #333333;
+    background-color:  #888888;
 }
 
 
