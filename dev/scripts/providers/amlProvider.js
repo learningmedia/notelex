@@ -23,7 +23,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
             intervalPattern = noteSet.intervals.join("");
             baseName = providerHelper.getToneName(noteSet.base, "Dur");
 
-            if (noteSet.intervals.length == 1) {
+            if (noteSet.intervals.length === 1) {
                 name = bass = baseName;
                 var chromaticName = "";
                 switch (name) {
@@ -72,7 +72,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                 extensions = getExtensions(intervalPattern);
 
                 baseName = providerHelper.firstLetterToUpper(baseName, true);
-                if (genus == "übermäßiger" || genus == "verminderter") {
+                if (genus === "übermäßiger" || genus === "verminderter") {
                     genus = genus.slice(0, -2);
                 }
                 if (name) {
@@ -102,7 +102,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
                     behavior = providerHelper.getBehavior(intervalPattern);
                     extensions = getExtensions(intervalPattern);
 
-                    if (genus == "übermäßiger" || genus == "verminderter") {
+                    if (genus === "übermäßiger" || genus === "verminderter") {
                         genus = genus.slice(0, -2);
                     }
                     if (name) {
@@ -117,7 +117,7 @@ define(["providers/providerHelper", "providers/nameHelper"], function(providerHe
 
             if (writeExtensions) {
                 enharmonicMessage = nameHelper.getEnharmonicMessage(baseName, intervalPattern);
-                if (enharmonicMessage != "") {
+                if (enharmonicMessage !== "") {
                     name += "<br/><span style='color:maroon;font-style:italic;'>" + enharmonicMessage + "</span>";
                 }
                 returnValue = getAmlObject(intervalNumber, name, baseName, genus, bass, behavior, intervalName, extensions);
