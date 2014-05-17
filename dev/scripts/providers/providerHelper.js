@@ -49,7 +49,6 @@ define(["calculationHelper"], function (calculationHelper) {
     }
 
     function getDvToneName(baseToneName) {
-        debugger;
         switch (baseToneName) {
             case "Des":
             case "E":
@@ -352,60 +351,30 @@ define(["calculationHelper"], function (calculationHelper) {
         var toneToLowerCase = tone.toLowerCase();
         switch (intervallPattern) {
             case "06":
-                if (toneToLowerCase === "as" || toneToLowerCase === "b" || toneToLowerCase === "h" || toneToLowerCase === "es" || toneToLowerCase === "fis") {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return (toneToLowerCase === "as" || toneToLowerCase === "b" || toneToLowerCase === "h" || toneToLowerCase === "es" || toneToLowerCase === "fis");
             case "036":
                 return true;
             case "057":
-                if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "as") {
-                    return true;
-                }
-                else{
-                    return false;
-                }
+                return (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "as");
             case "037":
             case "049":
             case "058":
-                if (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "es") {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return (toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "b" || toneToLowerCase === "des" || toneToLowerCase === "es");
             case "038":
             case "047":
             case "059":
-                if (toneToLowerCase === "des" || toneToLowerCase === "cis" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "h") {
-                    return true;
-                }
-                else{
-                    return false;
-                }
+                return (toneToLowerCase === "des" || toneToLowerCase === "cis" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "gis" || toneToLowerCase === "h");
             case "010":
             case "04710":
             case "0410":
             case "0710":
             case "4710":
-                if (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "b") {
-                    return true;
-                }
-                else{
-                    return false;
-                }
+                return (toneToLowerCase === "des" || toneToLowerCase === "es" || toneToLowerCase === "f" || toneToLowerCase === "as" || toneToLowerCase === "b");
             case "04711":
             case "0378":
             case "0459":
             case "0158":
-                if (toneToLowerCase === "des" || toneToLowerCase === "e" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h") {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return (toneToLowerCase === "des" || toneToLowerCase === "e" || toneToLowerCase === "fis" || toneToLowerCase === "as" || toneToLowerCase === "h");
             default:
                 return false;
         }
@@ -517,7 +486,7 @@ define(["calculationHelper"], function (calculationHelper) {
         }
         var udf = returnValue.indexOf("undefined");
         var nl = returnValue.indexOf("null");
-        if (udf !== -1 || nl !== -1 || name == "") {
+        if (udf !== -1 || nl !== -1 || name === "") {
             returnValue = null;
         }
         return returnValue;

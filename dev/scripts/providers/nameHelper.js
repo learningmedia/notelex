@@ -3,7 +3,7 @@ define(["providers/providerHelper"], function (providerHelper) {
     function getTriadName(base, intervals, originalValues) {
 
         var valuesOutput = "";
-        if (intervals.length != 3) {
+        if (intervals.length !== 3) {
             return valuesOutput;
         }
 
@@ -18,7 +18,7 @@ define(["providers/providerHelper"], function (providerHelper) {
     function getIncompletChordName(base, intervals, originalValues) {
 
         var valuesOutput = "";
-        if (intervals.length != 3) {
+        if (intervals.length !== 3) {
             return valuesOutput;
         }
 
@@ -45,7 +45,7 @@ define(["providers/providerHelper"], function (providerHelper) {
 
     function getEnharmonicIntervalName(intervalName, base) {
         var name = intervalName;
-        if (intervalName == "kleine Sekunde") {
+        if (intervalName === "kleine Sekunde") {
             switch (base) {
             case 0:
                 name = "übermäßige Prime (C-Des = kleine Sekunde)";
@@ -61,7 +61,7 @@ define(["providers/providerHelper"], function (providerHelper) {
                 break;
             }
         }
-        if (intervalName == "große Sekunde") {
+        if (intervalName === "große Sekunde") {
             switch (base) {
             case 1:
                 name = "verminderte Terz (Cis-Dis = große Sekunde)";
@@ -71,7 +71,7 @@ define(["providers/providerHelper"], function (providerHelper) {
                 break;
             }
         }
-        if (intervalName == "kleine Terz") {
+        if (intervalName === "kleine Terz") {
             switch (base) {
                 case 3:
                     name = "übermäßige Sekunde (Es-Ges = kleine Terz)";
@@ -81,7 +81,7 @@ define(["providers/providerHelper"], function (providerHelper) {
                     break;
             }
         }
-        if (intervalName == "große Terz") {
+        if (intervalName === "große Terz") {
             switch (base) {
             case 1:
                 name = "verminderte Quarte (Cis-Eis = große Terz)";
@@ -97,14 +97,14 @@ define(["providers/providerHelper"], function (providerHelper) {
                 break;
             }
         }
-        if (intervalName == "Quarte") {
+        if (intervalName === "Quarte") {
             switch (base) {
                 case 3:
                     name = "übermäßige Terz (Es-As = Quarte)";
                     break;
             }
         }
-        if (intervalName == "Tritonus") {
+        if (intervalName === "Tritonus") {
             switch (base) {
                 case 0:
                     name = "übermäßige Quarte (C-Ges = verminderte Quinte)";
@@ -179,6 +179,6 @@ define(["providers/providerHelper"], function (providerHelper) {
         getChordName: getChordName,
         getEnharmonicIntervalName: getEnharmonicIntervalName,
         getEnharmonicMessage: getEnharmonicMessage
-    }
+    };
 
 });

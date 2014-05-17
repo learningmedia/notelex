@@ -21,7 +21,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             if (noteSet.intervals.length == 3) {
                 name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 var incompleteName = nameHelper.getIncompletChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                if (incompleteName != "") {
+                if (incompleteName !== "") {
                     name = incompleteName;
                     nameParts = name.split("#");
                     chord = nameParts[1];

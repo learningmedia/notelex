@@ -91,7 +91,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask("default", ["test", "build"]);
-  grunt.registerTask("test", [/*"jshint", */"karma:default"]);
+  grunt.registerTask("test", ["jshint", "karma:default"]);
   grunt.registerTask("build", ["clean", "copy", "replace", "prettify", "requirejs", "concat", "uglify", "cssmin"]);
 
 };
