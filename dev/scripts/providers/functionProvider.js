@@ -18,7 +18,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
 
             /* Internal pattern for searching output */
             intervalPattern = noteSet.intervals.join("");
-            if (noteSet.intervals.length == 3) {
+            if (noteSet.intervals.length === 3) {
                 name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 var incompleteName = nameHelper.getIncompletChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 if (incompleteName !== "") {
