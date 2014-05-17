@@ -36,8 +36,8 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
                     name += behavior;
                 }
             }
-
-            if (noteSet.intervals.length === 4) {
+            debugger;
+            if (noteSet.intervals.length >= 4) {
                 name = nameHelper.getChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 nameParts = name.split("#");
                 chord = nameParts[1];

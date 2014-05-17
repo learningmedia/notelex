@@ -14,6 +14,9 @@ define(["calculationHelper"], function (calculationHelper) {
                         "<br/>2.)&nbsp;(&nbsp;&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sub>5></sub> D) Tg = " +
                         "übermäßiger Quintsextakkord (C-E-G-Ais) als Doppeldominante des Tonikagegenklangs (bzw. der Dominantparallele).</span>";
                 }
+                if (intervalPattern === "024710") {
+                    return "(D<sub>7</sub><sup style=\"margin-left:-7px;\">9</sup>) S = Dominantseptakkord (Zwischendominante) der Subdominante";
+                }
                 if (intervalPattern == "04711" || intervalPattern == "024711") {
                     return "T = Tonika";
                 }
@@ -39,6 +42,9 @@ define(["calculationHelper"], function (calculationHelper) {
                             "Dominantseptakkord ohne Grundton der Dominante (verkürzte Doppeldominante)</span>";
                     }
                     return "D<span style='position:absolut; margin-left:-6px;'><sub>D</sub><span><sup>7</sup> = Dominantseptakkord der Dominante (= Doppeldominantseptakkord)";
+                }
+                if (intervalPattern === "024710") {
+                    return "D<sub style=\"margin-left:-6px\">D</sub><sub>7</sub><sup style=\"margin-left:-7px;\">9</sup> D T = Dominante der Dominante (= Doppeldominante)";
                 }
                 return "D<span style='position:absolut; margin-left:-6px;'><sub>D</sub></span> = Dominante der Dominante (= Doppeldominante)";
             case "d-Moll":
@@ -71,9 +77,21 @@ define(["calculationHelper"], function (calculationHelper) {
             case "Fis-Dur":
                 return "(D) Dg = Dominante des Dominantgegenklangs (Zwischendominante zum Dominantgegenklang)";
             case "G-Dur":
+                if (intervalPattern === "04711") {
+                    break;
+                }
                 if (intervalPattern === "057") {
                     return "D<sup>4</sup> = Dominante mit Quartvorhalt";
-                } 
+                }
+                if (intervalPattern === "04710") {
+                    return "D<sup>7</sup> T = Dominantseptakkord";
+                }
+                if (intervalPattern === "024710") {
+                    return "D<sub>7</sub><sup style=\"margin-left:-7px;\">9</sup> T = Dominantseptakkordnonakkord";
+                }
+                if (intervalPattern === "024710") {
+                    return "(D<sub>7</sub><sup style=\"margin-left:-7px;\">9</sup>) S = Dominantseptakkord (Zwischendominante) der Subdominante";
+                }
                 return "D = Dominante";
             case "g-Moll":
                 return "(s D) S = Subdominantparallele bzw. S<sub>6</sub> (mit Sexte im Bass) der Subdominante (Zwischensubdominantparallele zur Subdominante)";
@@ -133,6 +151,9 @@ define(["calculationHelper"], function (calculationHelper) {
                         return "&#92<span style='position: absolut; margin-left:-10px;'>D<span style='position: absolut; margin-left:-8px;'><sub>D</sub></span><sup>7</sup> = Dominantseptakkord ohne Grundton der Dominante (verkürzte Doppeldominante)</span>";
                     }
                     return "D<span style='position:absolut; margin-left:-6px;'><sub>D</sub><span><sup>7</sup> = Dominantseptakkord der Dominante (= Doppeldominante)";
+                }
+                if (intervalPattern === "024710") {
+                    return "D<sub style=\"margin-left:-6px\">D</sub><sub>7</sub><sup style=\"margin-left:-7px;\">9</sup> D T = Dominante der Dominante (= Doppeldominante)";
                 }
                 return "D<span style='position:absolut; margin-left:-6px;'><sub>D</sub></span> = Dominantseptakkord der Dominante (= Doppeldominante)";
             case "d-Moll":
