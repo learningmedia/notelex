@@ -21,7 +21,7 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
             if (noteSet.intervals.length === 3) {
                 name = nameHelper.getTriadName(noteSet.base, noteSet.intervals, noteSet.originalValues);
                 var incompleteName = nameHelper.getIncompletChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                if (incompleteName !== "") {
+                if (incompleteName) {
                     name = incompleteName;
                     nameParts = name.split("#");
                     chord = nameParts[1];
@@ -36,14 +36,15 @@ define(["providers/providerHelper", "providers/functionHelper", "providers/nameH
                     name += behavior;
                 }
             }
-
-            if (noteSet.intervals.length === 4) {
+            if (noteSet.intervals.length >= 4) {
                 name = nameHelper.getChordName(noteSet.base, noteSet.intervals, noteSet.originalValues);
-                nameParts = name.split("#");
-                chord = nameParts[1];
-                chordParts = chord.split("-");
-                toneName = chordParts[0];
-                name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " - " + nameParts[3];
+                if (name) {
+                    nameParts = name.split("#");
+                    chord = nameParts[1];
+                    chordParts = chord.split("-");
+                    toneName = chordParts[0];
+                    name = nameParts[0] + " " + nameParts[1] + " " + nameParts[2] + " - " + nameParts[3];
+                }
             }
 
             /* Get message for enharmonic */
