@@ -17,7 +17,7 @@ define(["calculationHelper"], function (calculationHelper) {
                 if (intervalPattern === "024710") {
                     return "(D<sub>7</sub><sup style=\"margin-left:-7px;\">9</sup>) S = Dominantseptakkord (Zwischendominante) der Subdominante";
                 }
-                if (intervalPattern == "04711" || intervalPattern == "024711") {
+                if (intervalPattern === "04711" || intervalPattern === "024711") {
                     return "T = Tonika";
                 }
                 return "1.) T = Tonika<br/>2.) (D) S = Dominante (Zwischendominante) der Subdominante";
