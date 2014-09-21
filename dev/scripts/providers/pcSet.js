@@ -49,7 +49,7 @@ define(["providers/pcSetTable"], function (pcSetTable) {
 
         valuesToCompare.sort();
         var best = valuesToCompare[0];
-        return best.split(",").map(function (x) { return parseInt(x); });
+        return best.split(",").map(function (x) { return parseInt(x, 10); });
     }
 
     return function (noteSet) {
