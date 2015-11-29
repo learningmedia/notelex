@@ -1,5 +1,7 @@
 # notelex
 
+[![Build Status](https://travis-ci.org/learningmedia/notelex.svg)](https://travis-ci.org/learningmedia/notelex)
+
 Notelex is a website to compare different musical theory approaches.
 
 ## License
