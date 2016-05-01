@@ -19,6 +19,26 @@ const webpackConfig = {
   output: {
     library: 'notelex',
     libraryTarget: 'umd'
+  },
+  externals: {
+    'jquery': {
+      root: 'jQuery',
+      commonjs: 'jquery',
+      commonjs2: 'jquery',
+      amd: 'jquery'
+    },
+    'jquery.klavier': {
+      root: 'jQuery.fn.klavier',
+      commonjs: 'jquery.klavier',
+      commonjs2: 'jquery.klavier',
+      amd: 'jquery.klavier'
+    },
+    'vexflow': {
+      root: 'Vex',
+      commonjs: 'vexflow',
+      commonjs2: 'vexflow',
+      amd: 'vexflow'
+    }
   }
 };
 

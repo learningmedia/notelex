@@ -11,7 +11,7 @@ export function init(options) {
     var pianoSelector         = options.pianoSelector,
         theoryHeadersSelector = options.theoryHeadersSelector,
         theoryContentSelector = options.theoryContentSelector,
-        scoreCanvas           = options.scoreCanvas,
+        scoreCanvasSelector   = options.scoreCanvasSelector,
         theoryProviders       = providerFactory.getProviders(),
         currentProvider       = theoryProviders[0].key;
 
@@ -60,7 +60,7 @@ export function init(options) {
             selectedResult;
         currentProvider = decoded.provider;
         $(pianoSelector).klavier("setSelectedValues", decoded.keys);
-        notation.createNoteRenderer($(scoreCanvas)[0]).renderKeys(decoded.keys);
+        notation.createNoteRenderer($(scoreCanvasSelector)[0]).renderKeys(decoded.keys);
         currentResults = calculateResults(theoryProviders, currentProvider, decoded.keys);
         console.log(currentResults);
         selectedResult = currentResults.filter(function (result) { return result.selected; })[0];
