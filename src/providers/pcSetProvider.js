@@ -1,64 +1,49 @@
 import pcSet from "./pcSet";
+import pcSetTable from "./pcSetTable";
 
-var templateGeneric = ""
+var template = ""
     + "<div class='pcSetProviderResult'>"
     + "    <table>"
     + "        <tbody>"
     + "            <tr>"
-    + "                <th class='label'>{{rahnPrimeFormLabel}}</th>"
+    + "                <th class='label'>Prime Form (Rahn):</th>"
     + "                <td>{{rahnPrimeForm}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{fortePrimeFormLabel}}</th>"
+    + "                <th class='label'>Prime Form (Forte):</th>"
     + "                <td>{{fortePrimeForm}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{intervalVectorLabel}}</th>"
+    + "                <th class='label'>Intervallvektor:</th>"
     + "                <td>{{intervalVector}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{forteNameLabel}}</th>"
+    + "                <th class='label'>Name (Forte):</th>"
     + "                <td>{{forteName}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{zMateLabel}}</th>"
+    + "                <th class='label'>Z-Mate:</th>"
     + "                <td>{{zMate}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{superSetsLabel}}</th>"
+    + "                <th class='label'>Obermengen:</th>"
     + "                <td>{{superSets}}</td>"
     + "            </tr>"
     + "            <tr>"
-    + "                <th class='label'>{{subSetsLabel}}</th>"
+    + "                <th class='label'>Untermengen:</th>"
     + "                <td>{{subSets}}</td>"
     + "            </tr>"
     + "        </tbody>"
     + "    </table>"
     + "</div>";
 
-var templateDe = templateGeneric
-    .replace(/{{rahnPrimeFormLabel}}/, "Prime Form (Rahn):")
-    .replace(/{{fortePrimeFormLabel}}/, "Prime Form (Forte):")
-    .replace(/{{intervalVectorLabel}}/, "Intervallvektor:")
-    .replace(/{{forteNameLabel}}/, "Name (Forte):")
-    .replace(/{{zMateLabel}}/, "Z-Mate:")
-    .replace(/{{superSetsLabel}}/, "Obermengen:")
-    .replace(/{{subSetsLabel}}/, "Untermengen:");
-
-var templateEn = templateGeneric
-    .replace(/{{rahnPrimeFormLabel}}/, "Prime form (Rahn):")
-    .replace(/{{fortePrimeFormLabel}}/, "Prime form (Forte):")
-    .replace(/{{intervalVectorLabel}}/, "Interval vector:")
-    .replace(/{{forteNameLabel}}/, "Name (Forte):")
-    .replace(/{{zMateLabel}}/, "Z-mate:")
-    .replace(/{{superSetsLabel}}/, "Supersets:")
-    .replace(/{{subSetsLabel}}/, "Subsets:");
-
-function formatPrimeForm(primeForm, language) {
+function formatPrimeForm(primeForm, includeForteName) {
     if (primeForm.length === 0) {
-        return "(<i>" + (language === "de" ? "leer" : "empty") + "</i>)";
+        return "(<i>empty</i>)";
     } else {
-        return "(" + Array.prototype.join.call(primeForm, ",&nbsp;") + ")";
+        var pcSet = pcSetTable[primeForm];
+        var forteName = (includeForteName && pcSet.forteName) ? ("<b>" + pcSet.forteName + "</b>:&nbsp;") : "";
+        return forteName + "(" + Array.prototype.join.call(primeForm, ",&nbsp;") + ")";
     }
 }
 
@@ -70,30 +55,29 @@ function formatForteName(forteName) {
     return forteName ? forteName : "&ndash;";
 }
 
-function formatZMate(zMate, language) {
-    return zMate ? formatPrimeForm(zMate, language) : "&ndash;";
+function formatZMate(zMate) {
+    return zMate ? formatPrimeForm(zMate) : "&ndash;";
 }
 
-function formatSuperOrSubSets(sets, language) {
+function formatSuperOrSubSets(sets) {
     if (sets.length === 0) {
         return "&ndash;";
     } else {
         return sets.map(function (set) {
-            return formatPrimeForm(set, language);
+            return formatPrimeForm(set, true);
         }).join("<br>");
     }
 }
 
-export default function (noteSet, language) {
+export default function (noteSet) {
     var set            = pcSet(noteSet),
-        rahnPrimeForm  = formatPrimeForm(set.rahnPrimeForm, language),
-        fortePrimeForm = formatPrimeForm(set.fortePrimeForm, language),
+        rahnPrimeForm  = formatPrimeForm(set.rahnPrimeForm, false),
+        fortePrimeForm = formatPrimeForm(set.fortePrimeForm, false),
         intervalVector = formatIntervalVector(set.intervalVector),
         forteName      = formatForteName(set.forteName),
-        zMate          = formatZMate(set.zMate, language),
-        superSets      = formatSuperOrSubSets(set.superSets, language),
-        subSets        = formatSuperOrSubSets(set.subSets, language),
-        template       = language === "de" ? templateDe : templateEn;
+        zMate          = formatZMate(set.zMate),
+        superSets      = formatSuperOrSubSets(set.superSets),
+        subSets        = formatSuperOrSubSets(set.subSets);
 
     return template
         .replace(/{{rahnPrimeForm}}/, rahnPrimeForm)

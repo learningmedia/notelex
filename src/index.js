@@ -62,7 +62,6 @@ export function init(options) {
         $(pianoSelector).klavier("setSelectedValues", decoded.keys);
         notation.createNoteRenderer($(scoreCanvasSelector)[0]).renderKeys(decoded.keys);
         currentResults = calculateResults(theoryProviders, currentProvider, decoded.keys);
-        console.log(currentResults);
         selectedResult = currentResults.filter(function (result) { return result.selected; })[0];
         showHeaders(theoryHeadersSelector, currentResults);
         $(theoryContentSelector).removeClass().addClass("theory-" + currentProvider).addClass(selectedResult.content ? "enabled" : "disabled");
